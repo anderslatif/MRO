@@ -1,0 +1,47 @@
+{
+  "name": "mro",
+  "version": "0.0.1",
+  "description": "Map Relations to Objects - ORM but in reverse",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "mro": "src/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anderslatif/MRO.git"
+  },
+  "keywords": [
+    "ORM",
+    "MRO",
+    "CLI",
+    "Mapping",
+    "Relational",
+    "Object",
+    "Relational",
+    "Database",
+    "Databases",
+    "Knex",
+    "Knex.js",
+    "Objection",
+    "Objection.js"
+  ],
+  "author": "Anders Latif",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anderslatif/MRO/issues"
+  },
+  "homepage": "https://github.com/anderslatif/MRO#readme",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "inquirer": "^8.0.0",
+    "mysql": "^2.18.1",
+    "ora": "^5.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^9.0.2"
+  }
+}
