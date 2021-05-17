@@ -83,5 +83,9 @@ function outputFormat() {
     });
 }
 
+function outputMysqlToJsonFormat() {
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUsername, typePassword, outputFormat  };
+}
+
+
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUsername, typePassword, outputFormat, outputMysqlToJsonFormat  };
