@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import chalk from "chalk";
 
 function chooseDatabase() {
     return inquirer.prompt([{
@@ -83,9 +84,29 @@ function outputFormat() {
     });
 }
 
-function outputMysqlToJsonFormat() {
+function outputMysqlKeysToKeep() {
 
+    return inquirer.prompt([{
+        type: "checkbox",
+        name: "mysqlKeysToKeep",
+        message: "Select the key-value pairs you want.",
+        choices: [
+            { checked: true, value: "Field",name: chalk.grey.inverse.bold(" field    ") + ": column name" },
+            { checked: true, value: "Type", name: chalk.grey.inverse.bold(" type     ") + ": int/varchar(255) etc." },
+            { value: "Default",             name: chalk.grey.inverse.bold(" default  ") + ": null, timestamp etc." },
+            { value: "Null",                name: chalk.grey.inverse.bold(" null     ") + ": YES/NO" },
+            { value: "Key",                 name: chalk.grey.inverse.bold(" key      ") + ": PRI/MUL etc." },
+            { value: "keyTo",               name: chalk.grey.inverse.bold(" keyTo    ") + ": Array of references 'table.columnName' if key is a Foreign Key" },
+            { value: "Extra",               name: chalk.grey.inverse.bold(" extra    ") + ": AUTO_INCREMENT etc." },
+            { value: "typeJS",              name: chalk.grey.inverse.bold(" typeJS   ") + ": Number/String etc.\n" +
+            chalk.grey(`To learn more about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting`) },
+        ]
+    }]
+    )
+    .catch(error => {
+        console.log("error", error);
+    });
 }
 
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUsername, typePassword, outputFormat, outputMysqlToJsonFormat  };
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUsername, typePassword, outputFormat, outputMysqlKeysToKeep };

@@ -2,7 +2,7 @@
 
 **M**odel **R**elations to **O**bjects
 
-### ORM but in reverse
+###### ORM but in reverse
 
 Reads the schema of relational databases and outputs files in JSON or Javascript format. 
 
@@ -17,12 +17,23 @@ JSON (MYSQL datatypes):
             "table": "users",
             "columns": [
                 {
-                    "name": "id",
-                    "type": "int",
+                    "field": "id", // column name
+                    "type": "int",                
+                    "typeJS: "Number",
                     "null": "NO",
                     "default": null,
                     "key": "PRI",
                     "extra": "AUTO_INCREMENT"
+                },
+                  {
+                    "field": "city_id",
+                    "type": "int",                
+                    "typeJS: "Number",
+                    "null": "NO",
+                    "default": null,
+                    "key": "MUL",
+                    "keyTo": ["city.id"] // allows multiple foreign keys per column
+                    "extra": null
                 }
             ]
         }
@@ -30,13 +41,6 @@ JSON (MYSQL datatypes):
 }
 ```
 
-JSON (Javascript datatypes):
-
-```
-{
-    
-}
-```
 
 Knex migration:
 
