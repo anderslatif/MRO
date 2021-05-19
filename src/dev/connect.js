@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+// remember to change the path depending on where you are running it from 
+// right now it expects you to run it from root (package.json location)
 dotenv.config({ path: "./src/dev/.env" });
 
 import mysql from "mysql"
