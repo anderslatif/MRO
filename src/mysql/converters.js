@@ -1,5 +1,6 @@
 import { getSchema } from './queries.js';
 import { convertMysqlTypesToJavascript, prettyPrintSchema } from './mysqlUtil.js';
+import { createMigrationFileString, createEmptyMigrationFileString, getKnexTimestampString } from '../knex/knexUtil.js';
 import fs from "fs";
 
 export async function convertToJSON(credentials, mysqlKeysToKeep) {
@@ -34,10 +35,20 @@ export async function convertToJSON(credentials, mysqlKeysToKeep) {
 }
 
 
-async function convertToKnexMigration() {
+export async function convertToKnexMigration(credentials) {
+    const showKeyForeignKeys = true;
+    const schema = await getSchema(credentials, showKeyForeignKeys);
+    let fileString;
+    if (schema.length > 0) {
+        fileString = createMigrationFileString(schema);
+    
+        console.log(fileString);
+    } else {
+        fileString = createEmptyMigrationFileString();
+    }
 
+    fs.writeFileSync(getKnexTimestampString() + "_mro_migration.js", fileString);
 }
 
 async function convertToObjection() {
-
 }

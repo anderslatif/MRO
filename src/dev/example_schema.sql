@@ -33,4 +33,15 @@ CREATE TABLE various_things (
 
 CREATE TABLE jsonsupport (
     my_json JSON
-)
+);
+
+CREATE TABLE timestampnow (     
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
+
+CREATE TABLE inttypes (
+    signedint INT(12),
+    unsignedint INT(10) UNSIGNED,
+    UNIQUE (signedint)
+);
+
