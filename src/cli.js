@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import prompt from "./util/prompts.js";
-import { convertToJSON, convertToKnexMigration } from "./mysql/converters.js";
+import { convertToJSON, convertToKnexMigration, convertToObjection } from "./mysql/converters.js";
 
 (async () => {
 
@@ -22,7 +22,7 @@ import { convertToJSON, convertToKnexMigration } from "./mysql/converters.js";
     } else if (outputFormat === "JS File (Knex.js migration style)") {
         convertToKnexMigration(credentials);
     } else if (outputFormat === "JS File (Objection.js style)") {
-
+        convertToObjection(credentials);
     }
 
 })();
