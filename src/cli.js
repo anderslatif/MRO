@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
 import prompt from "./util/prompts.js";
-import { convertToJSON, convertToKnexMigration, convertToObjection } from "./mysql/converters.js";
+import { convertToJSON, convertToKnexMigration, convertToObjection } from "./util/converters.js";
 
 (async () => {
 
 
     // const { choosenDatabase } = await prompt.chooseDatabase();
-/*     const { host } = await prompt.typeHost();
+    const { host } = await prompt.typeHost();
     const { database } = await prompt.typeDatabaseName();
-    const { username } = await prompt.typeUsername();
-    const { password } = await prompt.typePassword(); */
+    const { user } = await prompt.typeUser();
+    const { password } = await prompt.typePassword();
 
     const { outputFormat } = await prompt.outputFormat();
 
-    const credentials = { database: "mro" }; //{ host, database, username, password };
+    const credentials = { host, database, user, password };
 
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();

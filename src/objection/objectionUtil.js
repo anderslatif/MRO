@@ -1,5 +1,5 @@
 import { convertMysqlTypesToJavascript } from "../mysql/mysqlUtil.js";
-import { toCamelCase, toPascalCase } from './caseUtil.js';
+import { toCamelCase, toPascalCase } from './casingUtil.js';
 
 export function createObjectionFileString(table, className) {
     console.log(table)
@@ -58,36 +58,39 @@ function getJsonSchema(table) {
 }
 
 function getRelationMappings(table) {
-    const relationalTable = table.columns.filter(column => Boolean(column.keyTo));
+    const relationalTables = table.columns.filter(column => Boolean(column.keyTo));
     
-    if (relationalTable.length === 0) return "";
+    if (relationalTables.length === 0) return "";
     
 
     const relationClassName = []; 
-    relationalTable.forEach(column => column.keyTo.forEach(relationTo => relationClassName.push(toPascalCase(relationTo.split(".")[0]))));
+    relationalTables.forEach(column => column.keyTo.forEach(relationTo => relationClassName.push(toPascalCase(relationTo.split(".")[0]))));
 
     return (
 `static get relationMappings() {
-        // todo the variable and file name should be singular
-        ${relationClassName.map(className => `  const ${className} = require('./${className});
-        `).join("")}
-        
-        ${relationalTable.map((table) => {
-            return table.keyTo.map(keyTo => {
+        // fixme the variable and file name should be singular
+      ${relationClassName.map(className => `  const ${className} = require('./${className}');
+      `).join("")}
+      
+        return {
+        ${relationalTables.map(relationalTable => {
+            return relationalTable.keyTo.map(keyTo => {
                 const relationToTable = keyTo.split('.')[0];
-                return `
-        ${toCamelCase(relationToTable)}: {
-            // todo these relations need to be fixed
-            relation: ${table.Key === "MUL" ? `Model.ManyToManyRelation` : `Model.BelongsToOneRelation`},
-            modelClass: ${toPascalCase(relationToTable)},
-            join: {
-                from: '${table.table}.${table.Field}',
-                to: '${keyTo}'
-            }
-        }
-        `;
-            }).join("");
+                return (
+            `
+            ${toCamelCase(relationToTable)}: {
+                // fixme these relations need to be fixed
+                relation: ${table.Key === "MUL" ? `Model.ManyToManyRelation` : `Model.BelongsToOneRelation`},
+                modelClass: ${toPascalCase(relationToTable)},
+                join: {
+                    from: '${table.table}.${relationalTable.Field}',
+                    to: '${keyTo}'
+                }
+            }`);
+            });
         
-        }).join("")}`
+        })}
+        };
+    }`
 );
 }

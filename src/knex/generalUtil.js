@@ -7,13 +7,16 @@ export function getKnexTimestampString() {
     let miliSecondsString = `${date.getMilliseconds()}`;
     let miliseconds;
 
-    if (miliSecondsString.length === 2) {
+    if (miliSecondsString.length === 1) {
+        miliseconds = `00${miliSecondsString}`;
+    } else if (miliSecondsString.length === 2) {
         miliseconds = `0${miliSecondsString}`;
     } else if (miliSecondsString.length === 3) {
         miliseconds = miliSecondsString;
-    } else if (dmiliSecondsString.length === 4) {
+    } else if (miliSecondsString.length === 4) {
         miliseconds = miliSecondsString.substr(0, 2);
     }
 
     return `${year}${month}${monthDate}${seconds}${miliseconds}`;
 }
+

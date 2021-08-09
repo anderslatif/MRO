@@ -1,9 +1,9 @@
-import { getSchema } from './queries.js';
-import { convertMysqlTypesToJavascript, prettyPrintSchema } from './mysqlUtil.js';
+import { getSchema } from '../mysql/queries.js';
+import { convertMysqlTypesToJavascript, prettyPrintSchema } from '../mysql/mysqlUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';
 import { getKnexTimestampString } from '../knex/generalUtil.js';
 import { createObjectionFileString } from '../objection/objectionUtil.js';
-import { toPascalCase } from '../objection/caseUtil.js';
+import { toPascalCase } from '../objection/casingUtil.js';
 import fs from "fs";
 
 export async function convertToJSON(credentials, mysqlKeysToKeep) {
@@ -60,6 +60,7 @@ export async function convertToObjection(credentials) {
     schema.forEach(table => {
         const className = toPascalCase(table.table);
         const fileString = createObjectionFileString(table, className);
+        
         console.log(fileString);
     
         const dir = "./out";

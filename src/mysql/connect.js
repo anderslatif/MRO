@@ -1,17 +1,13 @@
 import mysql from "mysql"
 
-function connectMysql(host, database, user, password) {
+export default function connectMysql(credentials) {
     const connection     = mysql.createConnection({
-        host     : host,
-        database : database,
-        user     : user,
-        password : password
+        host     : credentials.host,
+        database : credentials.database,
+        user     : credentials.user,
+        password : credentials.password
     });
     connection.connect();
 
     return connection;
 }
-
-
-
-export default connectMysql;

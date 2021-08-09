@@ -1,9 +1,10 @@
-// todo change this path to ../mysql/connect.js
-import connection from "../dev/connect.js";
+import connect from "../mysql/connect.js";
 
 export function getSchema(credentials, showKeyTo) {
-    return new Promise((resolve, reject) => {
-        
+
+    return new Promise(async (resolve, reject) => {
+        const connection = await connect(credentials);
+
         return connection.query(`SHOW TABLES;`, async (error, result, fields) => {
             if (error) {
                 reject(error);

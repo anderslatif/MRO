@@ -50,10 +50,10 @@ function typeDatabaseName() {
     });
 }
 
-function typeUsername() {
+function typeUser() {
     return inquirer.prompt([{
         type: "input",
-        name: "username",
+        name: "user",
         message: "Type your database username."  
     }])
     .catch(error => {
@@ -77,7 +77,7 @@ function outputFormat() {
         type: "list",
         name: "outputFormat",
         message: "Choose an output format.",
-        choices: ["JS File (Objection.js style)", "JS File (Knex.js migration style)", "JSON (MYSQL Data types/JS Data Types)"]  
+        choices: ["JSON (MYSQL Data types/JS Data Types)", "JS File (Knex.js migration style)", "JS File (Objection.js style)"]  
     }])
     .catch(error => {
         console.log(error);
@@ -109,4 +109,4 @@ function outputMysqlKeysToKeep() {
 }
 
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUsername, typePassword, outputFormat, outputMysqlKeysToKeep };
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePassword, outputFormat, outputMysqlKeysToKeep };

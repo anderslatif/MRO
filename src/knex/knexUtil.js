@@ -24,10 +24,11 @@ exports.down = function(knex) {
 
 function createMigrationTable(table) {
     return (
-`    knex.schema.createTable('${table.table}', (table) => {
+`    
+    knex.schema.createTable('${table.table}', (table) => {
 ${table.columns.map(column => createMigrationColumn(column)).join("")}
     });
-`
+    `
     );
 }
 
@@ -42,7 +43,7 @@ export function lookupKnexTypeFromMysql(column) {
     // ('${column.Field}')${constructAdditionalInfo(column)}
     // missing: jsonB, uuid('id').primary()
     if (column.Extra === "auto_increment") {
-        return `uuid(${column.Field}).primary()${constructAdditionalInfo(column)}`
+        return `uuid('${column.Field}').primary()${constructAdditionalInfo(column)}`
     } else  if (column.Type.includes("char") || column.Type.includes("text")) {
         // and contains varchar
         return `string()${constructAdditionalInfo(column)}`;
