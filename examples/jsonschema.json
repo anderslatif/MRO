@@ -1,0 +1,121 @@
+{
+    "schema": [
+        {
+            "table": "categories",
+            "columns": [
+                {
+                    "field": "id",
+                    "type": "int(11)",
+                    "null": "NO",
+                    "key": "PRI",
+                    "extra": "auto_increment",
+                    "typeJS": "Number"
+                },
+                {
+                    "field": "name",
+                    "type": "varchar(255)",
+                    "null": "NO",
+                    "typeJS": "String"
+                },
+                {
+                    "field": "created_at",
+                    "type": "timestamp",
+                    "default": "CURRENT_TIMESTAMP",
+                    "null": "YES",
+                    "extra": "DEFAULT_GENERATED",
+                    "typeJS": "String"
+                }
+            ]
+        },
+        {
+            "table": "cities",
+            "columns": [
+                {
+                    "field": "city_id",
+                    "type": "int(11)",
+                    "null": "NO",
+                    "key": "PRI",
+                    "extra": "auto_increment",
+                    "typeJS": "Number"
+                },
+                {
+                    "field": "city_name",
+                    "type": "varchar(150)",
+                    "null": "NO",
+                    "typeJS": "String"
+                }
+            ]
+        },
+        {
+            "table": "inttypes",
+            "columns": [
+                {
+                    "field": "signedint",
+                    "type": "int(12)",
+                    "null": "YES",
+                    "key": "UNI",
+                    "typeJS": "Number"
+                },
+                {
+                    "field": "unsignedint",
+                    "type": "int(10) unsigned",
+                    "null": "YES",
+                    "typeJS": "Number"
+                }
+            ]
+        },
+        {
+            "table": "jsonsupport",
+            "columns": [
+                {
+                    "field": "my_json",
+                    "type": "json",
+                    "null": "YES"
+                }
+            ]
+        },
+        {
+            "table": "test_multiple_fk",
+            "columns": [
+                {
+                    "field": "id",
+                    "type": "int(11)",
+                    "null": "NO",
+                    "key": "PRI",
+                    "extra": "auto_increment",
+                    "typeJS": "Number"
+                }
+            ]
+        },
+        {
+            "table": "users",
+            "columns": [
+                {
+                    "field": "id",
+                    "type": "int(11)",
+                    "null": "NO",
+                    "key": "PRI",
+                    "extra": "auto_increment",
+                    "typeJS": "Number"
+                },
+                {
+                    "field": "name",
+                    "type": "varchar(255)",
+                    "null": "YES",
+                    "typeJS": "String"
+                },
+                {
+                    "field": "city_id",
+                    "type": "int(11)",
+                    "null": "YES",
+                    "key": "MUL",
+                    "typeJS": "Number",
+                    "keyTo": [
+                        "cities.city_id",
+                        "test_multiple_fk.id"
+                    ]
+                }
+            ]
+        }
+    ]
+}

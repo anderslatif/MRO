@@ -6,7 +6,6 @@
 
 Reads the schema of relational databases and outputs files in JSON or Javascript format. 
 
-
 ## Why
 
 - You want to quickly generate an overview of your database. 
@@ -31,50 +30,36 @@ And follow the prompts. Should be pretty straightforward. If something isn't the
 
 Just run it where you want the file(s) to be output to. 
 
+![Cli Example](./examples/cli_example.png)
 
 #### Supported formats
 
-JSON (MYSQL datatypes):
+JSON:
 
-```
-{ 
-    "schema": [
-        {
-            "table": "users",
-            "columns": [
-                {
-                    "field": "id", // column name
-                    "type": "int",                
-                    "typeJS: "Number",
-                    "null": "NO",
-                    "default": null,
-                    "key": "PRI",
-                    "extra": "AUTO_INCREMENT"
-                },
-                  {
-                    "field": "city_id",
-                    "type": "int",                
-                    "typeJS: "Number",
-                    "null": "NO",
-                    "default": null,
-                    "key": "MUL",
-                    "keyTo": ["city.id"] // allows multiple foreign keys per column
-                    "extra": null
-                }
-            ]
-        }
-    ]
-}
-```
+[Check out the JSON example output file](/examples/jsonschema.json)
 
+Knex.js [Unsupported / Experimental / Not tested]: 
 
-Knex migration:
+[Check out the Knex migration example output file](/examples/20210809039554_mro_migration.js)
 
 http://knexjs.org/#Migrations-API
 
-Objection model:
+Objection.js [Unsupported / Experimental / Not tested]: 
+
+[Check out the Objection examples models folder](/examples/objection_models)
 
 https://vincit.github.io/objection.js/guide/models.html#examples
+
+
+#### Todo
+
+Knex: Figure out how to write a query for the cascading order. Sort the tables by that order and reverse the sort for rollback. 
+
+Objection: Figure out how to write a query that analyzes the relations in my database and whether it's one-to-many, many-to-many or belongs-to-one and also make it bidirectional in the models.
+
+Test manually. 
+
+Write tests. 
 
 
 ## Create an issue
