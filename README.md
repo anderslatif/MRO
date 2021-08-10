@@ -34,17 +34,17 @@ Just run it where you want the file(s) to be output to.
 
 #### Supported formats
 
-JSON:
+##### JSON:
 
 [Check out the JSON example output file](/examples/jsonschema.json)
 
-Knex.js [Unsupported / Experimental / Not tested]: 
+##### Knex.js [Unsupported / Experimental / Not tested]: 
 
 [Check out the Knex migration example output file](/examples/20210809039554_mro_migration.js)
 
 http://knexjs.org/#Migrations-API
 
-Objection.js [Unsupported / Experimental / Not tested]: 
+##### Objection.js [Unsupported / Experimental / Not tested]: 
 
 [Check out the Objection examples models folder](/examples/objection_models)
 
@@ -55,11 +55,11 @@ https://vincit.github.io/objection.js/guide/models.html#examples
 
 Knex: Figure out how to write a query for the cascading order. Sort the tables by that order and reverse the sort for rollback. 
 
-Objection: Figure out how to write a query that analyzes the relations in my database and whether it's one-to-many, many-to-many or belongs-to-one and also make it bidirectional in the models.
+Objection: Figure out how to write a query that analyzes the relations in the database and whether it's one-to-many, many-to-many or belongs-to-one and also make it bidirectional in the models.
 
-Test manually. 
+Test manually.
 
-Write tests. 
+Write tests.
 
 
 ## Create an issue
