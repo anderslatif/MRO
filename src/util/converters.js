@@ -1,7 +1,7 @@
 import { getSchema } from '../mysql/queries.js';
 import { convertMysqlTypesToJavascript, prettyPrintSchema } from '../mysql/mysqlUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';
-import { getKnexTimestampString } from '../knex/generalUtil.js';
+import { getKnexTimestampString } from '../knex/timeUtil.js';
 import { createObjectionFileString } from '../objection/objectionUtil.js';
 import { toPascalCase } from '../objection/casingUtil.js';
 import fs from "fs";
@@ -61,13 +61,11 @@ export async function convertToObjection(credentials) {
         const className = toPascalCase(table.table);
         const fileString = createObjectionFileString(table, className);
         
-        console.log(fileString);
-    
-        const dir = "./out";
-        if (!fs.existsSync(dir)){
+        // makes it easier while testing to keep it in a folder rather than mixing the codebase with files
+        const dir = process.env.NODE_ENV === "dev" ? "./out" : "";
+        if (dir && !fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }
         fs.writeFileSync(dir + "/" + className + ".js", fileString);
     });
-
 }

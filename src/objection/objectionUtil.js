@@ -2,7 +2,6 @@ import { convertMysqlTypesToJavascript } from "../mysql/mysqlUtil.js";
 import { toCamelCase, toPascalCase } from './casingUtil.js';
 
 export function createObjectionFileString(table, className) {
-    console.log(table)
 
     const idMethod = getIdMethod(table);
     const jsonSchema = getJsonSchema(table);
@@ -38,7 +37,6 @@ function getIdMethod(table) {
     return idMethod;
 }
 
-// todo - handle mysql json type 
 function getJsonSchema(table) {
     return (
 `static get jsonSchema() {
@@ -47,8 +45,15 @@ function getJsonSchema(table) {
             required: [],
 
             properties: {
-            ${table.columns.map(column => `    ${toCamelCase(column.Field)}: { type: ${convertMysqlTypesToJavascript(column.Type.toUpperCase()).toLowerCase()} },
-            `).join("")}
+            ${table.columns.map(column => {
+                if (column.Type === "json") {
+                    return getJsonTypeForJsonSchema(column);
+                    return ``;
+                } else {
+                    return (`    ${toCamelCase(column.Field)}: { type: ${convertMysqlTypesToJavascript(column.Type.toUpperCase()).toLowerCase()} },
+            `);
+                }
+            }).join("")}
             }
         };
     }
@@ -57,13 +62,24 @@ function getJsonSchema(table) {
 );
 }
 
+function getJsonTypeForJsonSchema(column) {
+    return (
+        `   ${toCamelCase(column.Field)}: {
+                    type: 'object',
+                    properties: {
+                        // fixme fill out if you have specific requirements to the json schema
+                    }
+                }`
+    );
+}
+
 function getRelationMappings(table) {
     const relationalTables = table.columns.filter(column => Boolean(column.keyTo));
     
     if (relationalTables.length === 0) return "";
     
 
-    const relationClassName = []; 
+    const relationClassName = [];
     relationalTables.forEach(column => column.keyTo.forEach(relationTo => relationClassName.push(toPascalCase(relationTo.split(".")[0]))));
 
     return (
