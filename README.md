@@ -8,7 +8,7 @@ Reads the schema of relational databases and outputs files in JSON or Javascript
 
 ## Why
 
-- You want to quickly generate an overview of your database. 
+- You want to quickly generate an overview of your database. (It should take less than a minute to try.)
 
 - You want to backup your database schema and version them.
 
@@ -32,7 +32,7 @@ Just run it where you want the file(s) to be output to.
 
 ![Cli Example](./examples/cli_example.png)
 
-#### Supported formats
+## Supported formats
 
 ##### JSON:
 
@@ -51,7 +51,7 @@ http://knexjs.org/#Migrations-API
 https://vincit.github.io/objection.js/guide/models.html#examples
 
 
-#### Todo
+## Todo
 
 Knex: Figure out how to write a query for the cascading order. Sort the tables by that order and reverse the sort for rollback. 
 
