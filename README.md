@@ -8,7 +8,7 @@ Reads the schema of relational databases and outputs files in JSON or Javascript
 
 ## Why
 
-- You want to quickly generate an overview of your database. (It should take less than a minute to try.)
+- You want to quickly generate an overview of your database. (It should take less than a minute. Give it a try.)
 
 - You want to backup your database schema and version them.
 
@@ -34,21 +34,21 @@ Just run it where you want the file(s) to be output to.
 
 ## Supported formats
 
-##### JSON:
+[Examples are based on the example schema](/examples/example_schema.sql)
+
+#### JSON:
 
 [Check out the JSON example output file](/examples/jsonschema.json)
 
-##### Knex.js [Unsupported / Experimental / Not tested]: 
+#### Knex.js [Unsupported / Experimental / Not tested]: 
 
-[Check out the Knex migration example output file](/examples/20210809039554_mro_migration.js)
+[Check out the Knex migration example output file](/examples/20210809039554_mro_migration.js) 
+[Learn More](http://knexjs.org/#Migrations-API)
 
-http://knexjs.org/#Migrations-API
+#### Objection.js [Unsupported / Experimental / Not tested]: 
 
-##### Objection.js [Unsupported / Experimental / Not tested]: 
-
-[Check out the Objection examples models folder](/examples/objection_models)
-
-https://vincit.github.io/objection.js/guide/models.html#examples
+[Check out the Objection examples models folder](/examples/objection_models) 
+[Learn More](https://vincit.github.io/objection.js/guide/models.html#examples)
 
 
 ## Todo
