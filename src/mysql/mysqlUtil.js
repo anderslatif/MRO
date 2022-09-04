@@ -1,5 +1,30 @@
 import chalk from "chalk";
 
+export function convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo) {
+    return schema.map(table => {
+        const columns = table.columns.map(column => {
+            let tableInfo = {};
+            mysqlKeysToKeep.map(keyToKeep => {
+                if (column[keyToKeep]) {
+                    tableInfo[keyToKeep.toLowerCase()] = column[keyToKeep];
+                }
+            });
+            if (mysqlKeysToKeep.includes("typeJS")) {
+                tableInfo.typeJS = convertMysqlTypesToJavascript(column.Type.toUpperCase());
+            }
+            if (showKeyTo) {
+                delete tableInfo.keyto;
+                tableInfo.keyTo = column.keyTo;
+            }
+            return tableInfo;
+        });
+        return {
+            table: table.table,
+            columns
+        };
+    });
+}
+
 export function convertMysqlTypesToJavascript(type) {
     if (
         type.includes("TINYINT") ||

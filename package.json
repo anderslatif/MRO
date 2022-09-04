@@ -1,6 +1,6 @@
 {
   "name": "mro",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Map Relations to Objects - ORM but in reverse",
   "type": "module",
   "main": "src/index.js",
@@ -28,7 +28,9 @@
     "Knex",
     "Knex.js",
     "Objection",
-    "Objection.js"
+    "Objection.js",
+    "DOCS",
+    "Documentation"
   ],
   "author": "Anders Latif",
   "license": "MIT",

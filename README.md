@@ -8,7 +8,9 @@ Reads the schema of relational databases and outputs files in JSON or Javascript
 
 ## Why
 
-- You want to quickly generate an overview of your database. (It should take less than a minute. Give it a try.)
+- You want to quickly generate a JSON overview of your database.
+
+- You want to create HTML docs for your database. 
 
 - You want to backup your database schema and version them.
 

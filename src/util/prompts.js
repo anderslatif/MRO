@@ -77,7 +77,7 @@ function outputFormat() {
         type: "list",
         name: "outputFormat",
         message: "Choose an output format.",
-        choices: ["JSON (MYSQL Data types/JS Data Types)", "JS File (Knex.js migration style)", "JS File (Objection.js style)"]  
+        choices: ["JSON (MYSQL Data types/JS Data Types)", 'HTML Page', "JS File (Knex.js migration style)", "JS File (Objection.js style)"]  
     }])
     .catch(error => {
         console.log(error);
@@ -99,7 +99,7 @@ function outputMysqlKeysToKeep() {
             { value: "keyTo",               name: chalk.grey.inverse.bold(" keyTo    ") + ": Array of references 'table.columnName' if key is a Foreign Key" },
             { value: "Extra",               name: chalk.grey.inverse.bold(" extra    ") + ": AUTO_INCREMENT etc." },
             { value: "typeJS",              name: chalk.grey.inverse.bold(" typeJS   ") + ": Number/String etc.\n" +
-            chalk.grey(`To learn more about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting`) },
+            chalk.grey(` about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting`) },
         ]
     }]
     )

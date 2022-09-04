@@ -1,5 +1,6 @@
 import { getSchema } from '../mysql/queries.js';
-import { convertMysqlTypesToJavascript, prettyPrintSchema } from '../mysql/mysqlUtil.js';
+import { prettyPrintSchema, convertSchemaToNeatJson } from '../mysql/mysqlUtil.js';
+import { getHTMLDocument } from '../html/htmlDocsUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';
 import { getKnexTimestampString } from '../knex/timeUtil.js';
 import { createObjectionFileString } from '../objection/objectionUtil.js';
@@ -10,31 +11,23 @@ export async function convertToJSON(credentials, mysqlKeysToKeep) {
     const showKeyTo = mysqlKeysToKeep.includes("keyTo");
     const schema = await getSchema(credentials, showKeyTo);
 
-    const tables = schema.map(table => {
-        const columns = table.columns.map(column => {
-            let tableInfo = {};
-            mysqlKeysToKeep.map(keyToKeep => {
-                if (column[keyToKeep]) {
-                    tableInfo[keyToKeep.toLowerCase()] = column[keyToKeep];
-                }
-            });
-            if (mysqlKeysToKeep.includes("typeJS")) {
-                tableInfo.typeJS = convertMysqlTypesToJavascript(column.Type.toUpperCase());
-            }
-            if (showKeyTo) {
-                delete tableInfo.keyto;
-                tableInfo.keyTo = column.keyTo;
-            }
-            return tableInfo;
-        });
-        return {
-            table: table.table,
-            columns
-        };
-    });
-    prettyPrintSchema(tables);
+    const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
     const stringifiedSchema = JSON.stringify({ schema: tables }, null, 4);
+
+    prettyPrintSchema(tables);
     fs.writeFileSync(credentials.database+".json", stringifiedSchema);
+}
+
+export async function convertToHTML(credentials, mysqlKeysToKeep) {
+    const showKeyTo = mysqlKeysToKeep.includes("keyTo");
+    const schema = await getSchema(credentials, showKeyTo);
+
+    const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
+    const htmlDocument = getHTMLDocument(tables, credentials.database);
+
+    fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);
+    prettyPrintSchema(tables);
+    
 }
 
 
