@@ -2,14 +2,13 @@
 
 import prompt from "./util/prompts.js";
 import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjection } from "./util/converters.js";
-let dotenv;
-import('dotenv').then((module) => dotenv = module);
+// import "dotenv/config";
 
 (async () => {
 
     let credentials;
 
-    if (!dotenv) {
+    if (!process.env.DB_HOST) {
         // const { choosenDatabase } = await prompt.chooseDatabase();
         const { host } = await prompt.typeHost();
         const { database } = await prompt.typeDatabaseName();
@@ -20,7 +19,6 @@ import('dotenv').then((module) => dotenv = module);
 
     } else {
 
-        dotenv.config();
         credentials = { 
             host: process.env.DB_HOST, 
             database: process.env.DB_DATABASE, 

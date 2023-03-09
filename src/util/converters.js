@@ -5,6 +5,7 @@ import { createMigrationFileString, createEmptyMigrationFileString } from '../kn
 import { getKnexTimestampString } from '../knex/timeUtil.js';
 import { createObjectionFileString } from '../objection/objectionUtil.js';
 import { toPascalCase } from '../objection/casingUtil.js';
+import prompts from "./prompts.js"
 import fs from "fs";
 
 export async function convertToJSON(credentials, mysqlKeysToKeep) {
@@ -23,11 +24,14 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
     const schema = await getSchema(credentials, showKeyTo);
 
     const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
-    const htmlDocument = getHTMLDocument(tables, credentials.database);
+    const selectedTables = await prompts.selectTables(tables);
 
+    const filteredTables = tables.filter(table => selectedTables.tables.includes(table.table));
+
+    const htmlDocument = getHTMLDocument(filteredTables, credentials.database);
+
+    prettyPrintSchema(filteredTables);    
     fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);
-    prettyPrintSchema(tables);
-    
 }
 
 

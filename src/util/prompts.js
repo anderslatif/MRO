@@ -108,5 +108,20 @@ function outputMysqlKeysToKeep() {
     });
 }
 
+function selectTables(tables) {
+    return inquirer.prompt([{
+        type: "checkbox",
+        name: "tables",
+        message: "Select the tables you want to document.",
+        choices: tables.map(table => {
+            return { checked: true, value: table.table, name: table.table }
+        })
+    }]
+    )
+    .catch(error => {
+        console.log("error", error);
+    });
+}
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePassword, outputFormat, outputMysqlKeysToKeep };
+
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePassword, outputFormat, outputMysqlKeysToKeep, selectTables };
