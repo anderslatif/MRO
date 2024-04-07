@@ -7,6 +7,7 @@ import { createObjectionFileString } from '../objection/objectionUtil.js';
 import { toPascalCase } from '../objection/casingUtil.js';
 import prompts from "./prompts.js"
 import fs from "fs";
+import { createDependencyGraph, topologicalSort, sortSchema } from '../knex/dependencyGraph.js';
 
 export async function convertToJSON(credentials, mysqlKeysToKeep) {
     const showKeyTo = mysqlKeysToKeep.includes("keyTo");
@@ -40,9 +41,14 @@ export async function convertToKnexMigration(credentials) {
     const schema = await getSchema(credentials, showKeyForeignKeys);
     let fileString;
     if (schema.length > 0) {
-        fileString = createMigrationFileString(schema);
+        const graph = createDependencyGraph(schema);
+        const sortedTables = topologicalSort(graph);
+        // sorting on copies rather than the original schema
+        const sortedSchema = sortSchema(schema, [...sortedTables]);
+        const sortedSchemaReversed = [...sortedSchema].reverse();
+
+        fileString = createMigrationFileString(sortedSchema, sortedSchemaReversed);
     
-        console.log(fileString);
     } else {
         fileString = createEmptyMigrationFileString();
     }

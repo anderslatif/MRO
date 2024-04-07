@@ -15,7 +15,7 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
         const { user } = await prompt.typeUser();
         const { password } = await prompt.typePassword();
 
-        credentials = { host , database, user, password };
+        credentials = { host, database, user, password };
 
     } else {
 

@@ -26,7 +26,9 @@ Reads the schema of relational databases and outputs files in JSON or Javascript
 
 ## How to use
 
-`npx mro`
+```bash
+$ npx mro
+```
 
 And follow the prompts. Should be pretty straightforward. If something isn't then create an issue. 
 

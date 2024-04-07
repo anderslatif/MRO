@@ -1,2 +1,10 @@
-src/dev/
-out/
+# Ignore all files and directories
+*
+
+# Include necessary files and directories
+!src/
+!package.json
+!README.md
+!LICENSE
+
+
