@@ -39,12 +39,14 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
 export async function convertToKnexMigration(credentials) {
     const showKeyForeignKeys = true;
     const schema = await getSchema(credentials, showKeyForeignKeys);
+    const tablesToIgnore = ['knex_migrations', 'knex_migrations_lock'];
+    const schemaWithoutKnexTables = schema.filter((table) => !tablesToIgnore.includes(table.table));
     let fileString;
-    if (schema.length > 0) {
-        const graph = createDependencyGraph(schema);
+    if (schemaWithoutKnexTables.length > 0) {
+        const graph = createDependencyGraph(schemaWithoutKnexTables);
         const sortedTables = topologicalSort(graph);
         // sorting on copies rather than the original schema
-        const sortedSchema = sortSchema(schema, [...sortedTables]);
+        const sortedSchema = sortSchema(schemaWithoutKnexTables, [...sortedTables]);
         const sortedSchemaReversed = [...sortedSchema].reverse();
 
         fileString = createMigrationFileString(sortedSchema, sortedSchemaReversed);

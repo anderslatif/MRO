@@ -2,7 +2,7 @@
 
 import prompt from "./util/prompts.js";
 import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjection } from "./util/converters.js";
-// import "dotenv/config";
+import "dotenv/config";
 
 (async () => {
 
@@ -29,7 +29,9 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
     }
 
 
-    const { outputFormat } = await prompt.outputFormat();
+    // const { outputFormat } = await prompt.outputFormat();
+
+    const outputFormat = "JS File (Knex.js migration style)";
 
 
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
