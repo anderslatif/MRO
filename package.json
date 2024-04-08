@@ -40,11 +40,9 @@
   "homepage": "https://github.com/anderslatif/MRO#readme",
   "dependencies": {
     "chalk": "^4.1.1",
+    "dotenv": "^9.0.2",
     "inquirer": "^8.0.0",
     "mysql2": "^2.3.3",
-    "dotenv": "^9.0.2"
-  },
-  "devDependencies": {
-    
+    "pluralize": "^8.0.0"
   }
 }

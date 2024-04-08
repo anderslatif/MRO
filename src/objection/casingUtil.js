@@ -1,5 +1,5 @@
 export function toCamelCase(tableName) {
-    return lowerCase(snakeToCamelcase(tableName));
+    return toLowerCase(snakeToCamelcase(tableName));
 }
 
 export function toPascalCase(tableName) {
@@ -18,7 +18,7 @@ function capitalize(word) {
     }
 }
 
-function lowerCase(word) {
+export function toLowerCase(word) {
     if (word.length > 0) {
         return `${word.substr(0, 1).toLowerCase()}${word.substr(1, word.length)}`;
     } else {

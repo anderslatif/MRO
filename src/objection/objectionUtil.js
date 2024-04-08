@@ -1,5 +1,8 @@
 import { convertMysqlTypesToJavascript } from "../mysql/mysqlUtil.js";
-import { toCamelCase, toPascalCase } from './casingUtil.js';
+import { toCamelCase, toPascalCase, toLowerCase } from './casingUtil.js';
+import pluralize from "pluralize";
+
+let importStatements = "";
 
 export function createObjectionFileString(table, className) {
 
@@ -7,8 +10,8 @@ export function createObjectionFileString(table, className) {
     const jsonSchema = getJsonSchema(table);
     const relationMappings = getRelationMappings(table);
 
-    return (
-`const { Model } = require('objection');
+    const file = `
+import { Model } from 'objection';
 
 class ${className} extends Model {
 
@@ -22,8 +25,9 @@ class ${className} extends Model {
 }
 
 module.exports = ${className};
-`
-    );
+`;
+
+    return importStatements + file;
 }
 
 function getIdMethod(table) {
@@ -74,39 +78,46 @@ function getJsonTypeForJsonSchema(column) {
 }
 
 function getRelationMappings(table) {
-    const relationalTables = table.columns.filter(column => Boolean(column.keyTo));
+    const relationalColumns = table.columns.filter(column => Boolean(column.keyTo));
     
-    if (relationalTables.length === 0) return "";
-    
+    if (relationalColumns.length === 0) return "";
 
-    const relationClassName = [];
-    relationalTables.forEach(column => column.keyTo.forEach(relationTo => relationClassName.push(toPascalCase(relationTo.split(".")[0]))));
+    let imports = new Set();
+    relationalColumns.forEach(column => {
+        column.keyTo.forEach(relationTo => {
+            const tableName = relationTo.split(".")[0];
+            imports.add(pluralize.singular(tableName));
+        });
+    });
+
+    importStatements = [...imports].map(className => 
+        `import { ${toPascalCase(className)} } from './${toPascalCase(pluralize.singular(className))}.js';`
+    ).join("\n");
+
+    const relationMappings = relationalColumns.map(column => {
+        return column.keyTo.map(keyTo => {
+            const relationToTable = keyTo.split('.')[0];
+            const relationName = toCamelCase(pluralize.singular(relationToTable));
+            const relationType = column.Key === "MUL" ? `Model.ManyToManyRelation` : `Model.BelongsToOneRelation`;
+            return (
+                `${relationName}: {
+                    relation: ${relationType},
+                    modelClass: ${toPascalCase(pluralize.singular(relationToTable))},
+                    join: {
+                        from: '${table.table}.${column.Field}',
+                        to: '${keyTo}'
+                    }
+                }`
+            );
+        }).join(',');
+    }).join(',');
 
     return (
 `static get relationMappings() {
-        // fixme the variable and file name should be singular
-      ${relationClassName.map(className => `  const ${className} = require('./${className}');
-      `).join("")}
       
         return {
-        ${relationalTables.map(relationalTable => {
-            return relationalTable.keyTo.map(keyTo => {
-                const relationToTable = keyTo.split('.')[0];
-                return (
-            `
-            ${toCamelCase(relationToTable)}: {
-                // fixme these relations need to be fixed
-                relation: ${table.Key === "MUL" ? `Model.ManyToManyRelation` : `Model.BelongsToOneRelation`},
-                modelClass: ${toPascalCase(relationToTable)},
-                join: {
-                    from: '${table.table}.${relationalTable.Field}',
-                    to: '${keyTo}'
-                }
-            }`);
-            });
-        
-        })}
+          ${relationMappings}
         };
     }`
-);
+    );
 }

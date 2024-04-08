@@ -8,6 +8,7 @@ import { toPascalCase } from '../objection/casingUtil.js';
 import prompts from "./prompts.js"
 import fs from "fs";
 import { createDependencyGraph, topologicalSort, sortSchema } from '../knex/dependencyGraph.js';
+import pluralize from 'pluralize';
 
 export async function convertToJSON(credentials, mysqlKeysToKeep) {
     const showKeyTo = mysqlKeysToKeep.includes("keyTo");
@@ -62,8 +63,8 @@ export async function convertToObjection(credentials) {
     const showKeyForeignKeys = true;
     const schema = await getSchema(credentials, showKeyForeignKeys);
 
-    schema.forEach(table => {
-        const className = toPascalCase(table.table);
+    schema.forEach((table) => {
+        const className = pluralize.singular(toPascalCase(table.table));
         const fileString = createObjectionFileString(table, className);
         
         const dir = "./models";

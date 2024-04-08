@@ -31,7 +31,6 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
 
     const { outputFormat } = await prompt.outputFormat();
 
-
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();
         convertToJSON(credentials, mysqlKeysToKeep);
