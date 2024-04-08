@@ -2,7 +2,7 @@
 
 import prompt from "./util/prompts.js";
 import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjection } from "./util/converters.js";
-import "dotenv/config";
+// import "dotenv/config";
 
 (async () => {
 
@@ -29,9 +29,7 @@ import "dotenv/config";
     }
 
 
-    // const { outputFormat } = await prompt.outputFormat();
-
-    const outputFormat = "JS File (Knex.js migration style)";
+    const { outputFormat } = await prompt.outputFormat();
 
 
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
@@ -40,9 +38,9 @@ import "dotenv/config";
     } else if (outputFormat === "HTML Page") {
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();
         convertToHTML(credentials, mysqlKeysToKeep);
-    } else if (outputFormat === "JS File (Knex.js migration style)") {
+    } else if (outputFormat === "Knex.js migrations") {
         convertToKnexMigration(credentials);
-    } else if (outputFormat === "JS File (Objection.js style)") {
+    } else if (outputFormat === "Objection.js Models") {
         convertToObjection(credentials);
     }
 

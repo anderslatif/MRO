@@ -77,7 +77,7 @@ function outputFormat() {
         type: "list",
         name: "outputFormat",
         message: "Choose an output format.",
-        choices: ["JSON (MYSQL Data types/JS Data Types)", 'HTML Page', "JS File (Knex.js migration style)", "JS File (Objection.js style)"]  
+        choices: ["JSON (MYSQL Data types/JS Data Types)", 'HTML Page', "Knex.js migrations", "Objection.js Models"]  
     }])
     .catch(error => {
         console.log(error);

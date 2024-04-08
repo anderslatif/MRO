@@ -66,8 +66,7 @@ export async function convertToObjection(credentials) {
         const className = toPascalCase(table.table);
         const fileString = createObjectionFileString(table, className);
         
-        // makes it easier while testing to keep it in a folder rather than mixing the codebase with files
-        const dir = process.env.NODE_ENV === "dev" ? "./out" : "";
+        const dir = "./models";
         if (dir && !fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }
