@@ -13,7 +13,7 @@ export function createObjectionFileString(table, className) {
     const file = `
 import { Model } from 'objection';
 
-class ${className} extends Model {
+export default class ${className} extends Model {
 
     static get tableName() {
         return '${table.table}';
@@ -24,7 +24,6 @@ class ${className} extends Model {
     ${relationMappings}
 }
 
-module.exports = ${className};
 `;
 
     return importStatements + file;
