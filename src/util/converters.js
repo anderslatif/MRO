@@ -7,6 +7,7 @@ import { createObjectionFileString } from '../objection/objectionUtil.js';
 import { toPascalCase } from '../objection/casingUtil.js';
 import prompts from "./prompts.js"
 import fs from "fs";
+import path from "path";
 import { createDependencyGraph, topologicalSort, sortSchema } from '../knex/dependencyGraph.js';
 import pluralize from 'pluralize';
 
@@ -68,9 +69,10 @@ export async function convertToObjection(credentials) {
         const fileString = createObjectionFileString(table, className);
         
         const dir = "./models";
+        const filePath = path.join(dir, className + ".js");
         if (dir && !fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }
-        fs.writeFileSync(dir + "/" + className + ".js", fileString);
+        fs.writeFileSync(filePath, fileString);
     });
 }

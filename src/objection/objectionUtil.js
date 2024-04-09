@@ -3,6 +3,7 @@ import { toCamelCase, toPascalCase, toLowerCase } from './casingUtil.js';
 import pluralize from "pluralize";
 
 let importStatements = "";
+const usesESM = false;
 
 export function createObjectionFileString(table, className) {
 
@@ -10,10 +11,14 @@ export function createObjectionFileString(table, className) {
     const jsonSchema = getJsonSchema(table);
     const relationMappings = getRelationMappings(table);
 
-    const file = `
-import { Model } from 'objection';
+    const importObjectionStatement = usesESM ? "import { Model } from 'objection';" : `const { Model } = require('objection');`;
+    const exportStatement = usesESM ? "export default" : "module.exports =";
 
-export default class ${className} extends Model {
+    return (
+`${importObjectionStatement}
+${importStatements}
+
+class ${className} extends Model {
 
     static get tableName() {
         return '${table.table}';
@@ -24,9 +29,8 @@ export default class ${className} extends Model {
     ${relationMappings}
 }
 
-`;
-
-    return importStatements + file;
+${exportStatement} ${className};
+`);
 }
 
 function getIdMethod(table) {
@@ -53,7 +57,7 @@ function getJsonSchema(table) {
                     return getJsonTypeForJsonSchema(column);
                     return ``;
                 } else {
-                    return (`    ${toCamelCase(column.Field)}: { type: ${convertMysqlTypesToJavascript(column.Type.toUpperCase()).toLowerCase()} },
+                    return (`    ${column.Field}: { type: '${convertMysqlTypesToJavascript(column.Type.toUpperCase()).toLowerCase()}' },
             `);
                 }
             }).join("")}
@@ -89,9 +93,21 @@ function getRelationMappings(table) {
         });
     });
 
-    importStatements = [...imports].map(className => 
-        `import { ${toPascalCase(className)} } from './${toPascalCase(pluralize.singular(className))}.js';`
-    ).join("\n");
+    if (usesESM) {
+        importStatements += [...imports].map((className) => 
+            `import { ${toPascalCase(className)} } from './${toPascalCase(pluralize.singular(className))}.js';\n`
+        ).join("\n");
+    } else {
+        importStatements += [...imports].map((className) => {
+            if (pluralize.singular(table.table) === className) {
+                return "";
+            } else {
+                return `const ${toPascalCase(className)} = require('./${toPascalCase(pluralize.singular(className))}.js');\n`
+            }
+
+        }).join("\n");
+    }
+
 
     const relationMappings = relationalColumns.map(column => {
         return column.keyTo.map(keyTo => {

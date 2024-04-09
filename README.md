@@ -4,7 +4,7 @@
 
 ###### ORM but in reverse
 
-Reads the schema of relational databases and outputs files in JSON or Javascript format. 
+Reads the schema of relational databases and outputs to objects in JSON or Javascript. 
 
 ## Why
 
@@ -44,26 +44,15 @@ Just run it where you want the file(s) to be output to.
 
 [Check out the JSON example output file](/examples/jsonschema.json)
 
-#### Knex.js [Unsupported / Experimental / Not tested]: 
+#### Knex.js: 
 
 [Check out the Knex migration example output file](/examples/20210809039554_mro_migration.js) 
 [Learn More](http://knexjs.org/#Migrations-API)
 
-#### Objection.js [Unsupported / Experimental / Not tested]: 
+#### Objection.js: 
 
 [Check out the Objection examples models folder](/examples/objection_models) 
 [Learn More](https://vincit.github.io/objection.js/guide/models.html#examples)
-
-
-## Todo
-
-Knex: Figure out how to write a query for the cascading order. Sort the tables by that order and reverse the sort for rollback. 
-
-Objection: Figure out how to write a query that analyzes the relations in the database and whether it's one-to-many, many-to-many or belongs-to-one and also make it bidirectional in the models.
-
-Test manually.
-
-Write tests.
 
 
 ## Create an issue
@@ -74,7 +63,7 @@ Write tests.
 
 ## Supported Databases
 
-- Mysql
+- MySQL
 
 ## Support for other languages/frameworks
 

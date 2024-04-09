@@ -1,0 +1,5 @@
+Objection: Figure out how to write a query that analyzes the relations in the database and whether it's one-to-many, many-to-many or belongs-to-one and also make it bidirectional in the models.
+
+Objection: Let users choose between Common Js and ESM. 
+
+Write tests.
