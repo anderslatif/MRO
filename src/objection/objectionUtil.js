@@ -7,6 +7,9 @@ const usesESM = false;
 
 export function createObjectionFileString(table, className) {
 
+    // reset the global import statements string
+    importStatements = "";
+
     const idMethod = getIdMethod(table);
     const jsonSchema = getJsonSchema(table);
     const relationMappings = getRelationMappings(table);
@@ -17,7 +20,6 @@ export function createObjectionFileString(table, className) {
     return (
 `${importObjectionStatement}
 ${importStatements}
-
 class ${className} extends Model {
 
     static get tableName() {
@@ -63,9 +65,7 @@ function getJsonSchema(table) {
             }).join("")}
             }
         };
-    }
-
-`
+    }`
 );
 }
 
@@ -85,7 +85,7 @@ function getRelationMappings(table) {
     
     if (relationalColumns.length === 0) return "";
 
-    let imports = new Set();
+    const imports = new Set();
     relationalColumns.forEach(column => {
         column.keyTo.forEach(relationTo => {
             const tableName = relationTo.split(".")[0];
@@ -93,10 +93,14 @@ function getRelationMappings(table) {
         });
     });
 
+    // exclude the current class from being imported
+    const currentClassName = toPascalCase(pluralize.singular(table.table));
+    imports.delete(currentClassName);
+
     if (usesESM) {
         importStatements += [...imports].map((className) => 
-            `import { ${toPascalCase(className)} } from './${toPascalCase(pluralize.singular(className))}.js';\n`
-        ).join("\n");
+            `import { ${toPascalCase(className)} } from './${toPascalCase(className)}.js';\n`
+        ).join("");
     } else {
         importStatements += [...imports].map((className) => {
             if (pluralize.singular(table.table) === className) {

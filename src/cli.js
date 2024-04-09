@@ -2,7 +2,7 @@
 
 import prompt from "./util/prompts.js";
 import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjection } from "./util/converters.js";
-import "dotenv/config";
+// import "dotenv/config";
 
 (async () => {
 
@@ -28,9 +28,7 @@ import "dotenv/config";
         
     }
 
-
-    // const { outputFormat } = await prompt.outputFormat();
-    const outputFormat = "Objection.js Models";
+    const { outputFormat } = await prompt.outputFormat();
 
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();
