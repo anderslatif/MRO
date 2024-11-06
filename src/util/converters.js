@@ -1,4 +1,4 @@
-import { getSchema } from '../mysql/queries.js';
+import getSchema from '../mysql/queries.js';
 import { prettyPrintSchema, convertSchemaToNeatJson } from '../mysql/mysqlUtil.js';
 import { getHTMLDocument } from '../html/htmlDocsUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';
@@ -41,6 +41,7 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
 export async function convertToKnexMigration(credentials) {
     const showKeyForeignKeys = true;
     const schema = await getSchema(credentials, showKeyForeignKeys);
+
     const tablesToIgnore = ['knex_migrations', 'knex_migrations_lock'];
     const schemaWithoutKnexTables = schema.filter((table) => !tablesToIgnore.includes(table.table));
     let fileString;

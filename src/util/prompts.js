@@ -4,9 +4,9 @@ import chalk from "chalk";
 function chooseDatabase() {
     return inquirer.prompt([{
         type: "list",
-        name: "choosenDatabase",
+        name: "databaseType",
         message: "Choose database",
-        choices: ["mysql"]    
+        choices: ["mysql", "postgresql"]    
     }])
     .catch(error => {
         if(error.isTtyError) {
@@ -17,7 +17,7 @@ function chooseDatabase() {
     });
 }
 
-function typeHost() {
+export function typeHost() {
     return inquirer.prompt([{
         type: "confirm",
         name: "isLocalhost",
@@ -39,7 +39,7 @@ function typeHost() {
     });
 }
 
-function typeDatabaseName() {
+export function typeDatabaseName() {
     return inquirer.prompt([{
         type: "input",
         name: "database",
@@ -50,7 +50,22 @@ function typeDatabaseName() {
     });
 }
 
-function typeUser() {
+export function typePort(databaseType) {
+    console.log("databaseType", databaseType);
+    const defaultPort = { mysql: 3306, postgresql: 5432 }[databaseType] || '';
+    
+    return inquirer.prompt([{
+        type: "input",
+        name: "port",
+        message: "Type your database port.",
+        default: defaultPort
+    }])
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+export function typeUser() {
     return inquirer.prompt([{
         type: "input",
         name: "user",
@@ -61,7 +76,7 @@ function typeUser() {
     });
 }
 
-function typePassword() {
+export function typePassword() {
     return inquirer.prompt([{
         type: "password",
         name: "password",
@@ -72,7 +87,7 @@ function typePassword() {
     });
 }
 
-function outputFormat() {
+export function outputFormat() {
     return inquirer.prompt([{
         type: "list",
         name: "outputFormat",
@@ -84,8 +99,7 @@ function outputFormat() {
     });
 }
 
-function outputMysqlKeysToKeep() {
-
+export function outputMysqlKeysToKeep() {
     return inquirer.prompt([{
         type: "checkbox",
         name: "mysqlKeysToKeep",
@@ -101,14 +115,13 @@ function outputMysqlKeysToKeep() {
             { value: "typeJS",              name: chalk.grey.inverse.bold(" typeJS   ") + ": Number/String etc.\n" +
             chalk.grey(` about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting`) },
         ]
-    }]
-    )
+    }])
     .catch(error => {
         console.log("error", error);
     });
 }
 
-function selectTables(tables) {
+export function selectTables(tables) {
     return inquirer.prompt([{
         type: "checkbox",
         name: "tables",
@@ -116,12 +129,11 @@ function selectTables(tables) {
         choices: tables.map(table => {
             return { checked: true, value: table.table, name: table.table }
         })
-    }]
-    )
+    }])
     .catch(error => {
         console.log("error", error);
     });
 }
 
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePassword, outputFormat, outputMysqlKeysToKeep, selectTables };
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePort, typePassword, outputFormat, outputMysqlKeysToKeep, selectTables };

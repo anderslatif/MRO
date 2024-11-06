@@ -1,6 +1,6 @@
 {
   "name": "mro",
-  "version": "0.0.87",
+  "version": "0.0.88",
   "description": "Map Relations to Objects - ORM but in reverse",
   "type": "module",
   "main": "src/index.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=dev node src/cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha 'tests/**/*test.js'"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "dotenv": "^9.0.2",
     "inquirer": "^8.0.0",
     "mysql2": "^2.3.3",
+    "pg": "^8.13.1",
     "pluralize": "^8.0.0"
   }
 }

@@ -9,26 +9,30 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
     let credentials;
 
     if (!process.env.DB_HOST) {
-        // const { choosenDatabase } = await prompt.chooseDatabase();
+        const { databaseType } = await prompt.chooseDatabase();
+        console.log("databaseType11111111", databaseType);
         const { host } = await prompt.typeHost();
+        const { port } = await prompt.typePort(databaseType);
         const { database } = await prompt.typeDatabaseName();
         const { user } = await prompt.typeUser();
         const { password } = await prompt.typePassword();
 
-        credentials = { host, database, user, password };
+        credentials = { databaseType, host, database, port, user, password };
 
     } else {
 
-        credentials = { 
+        credentials = {
+            databaseType: process.env.DB_TYPE,
             host: process.env.DB_HOST, 
             database: process.env.DB_DATABASE, 
             user: process.env.DB_USER, 
-            password: process.env.DB_PASSWORD
+            password: process.env.DB_PASSWORD,
+            port: process.env.DB_PORT
         };
         
     }
 
-    const { outputFormat } = await prompt.outputFormat();
+    const { outputFormat } = await prompt.outputFormat();   
 
     if (outputFormat === "JSON (MYSQL Data types/JS Data Types)") {
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();

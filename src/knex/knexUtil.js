@@ -88,7 +88,12 @@ function constructAdditionalInfo(column) {
     }
 
     if (column.Default !== null) {
-        additionalInfo += `.defaultTo('${column.Default}')`;
+        // it it's a nextval sequence field in PostgreSQl
+        if (column.Default.includes("nextval")) {
+            additionalInfo += `.primary()`;
+        } else {
+            additionalInfo += `.defaultTo('${column.Default}')`;
+        }
     }
 
     if (column.Type.includes("unsigned")) {
