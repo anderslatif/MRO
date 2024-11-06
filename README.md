@@ -4,7 +4,7 @@
 
 ###### ORM but in reverse
 
-Reads the schema of relational database (MySQL) and outputs to objects in JSON or Javascript. 
+Reads the schema of relational database (MySQL/PostgreSQL) and outputs to objects in JSON or Javascript. 
 
 ## Why
 
@@ -64,6 +64,7 @@ Just run it where you want the file(s) to be output to.
 ## Supported Databases
 
 - MySQL
+- PostgreSQL
 
 ## Support for other languages/frameworks
 
