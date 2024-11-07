@@ -10,7 +10,6 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
 
     if (!process.env.DB_HOST) {
         const { databaseType } = await prompt.chooseDatabase();
-        console.log("databaseType11111111", databaseType);
         const { host } = await prompt.typeHost();
         const { port } = await prompt.typePort(databaseType);
         const { database } = await prompt.typeDatabaseName();
