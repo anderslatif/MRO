@@ -1,6 +1,6 @@
 {
   "name": "mro",
-  "version": "0.0.90",
+  "version": "0.0.91",
   "description": "Map Relations to Objects - ORM but in reverse",
   "type": "module",
   "main": "src/index.js",
@@ -44,6 +44,8 @@
     "inquirer": "^8.0.0",
     "mysql2": "^2.3.3",
     "pg": "^8.13.1",
-    "pluralize": "^8.0.0"
+    "pluralize": "^8.0.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }

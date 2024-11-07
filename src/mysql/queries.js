@@ -1,26 +1,22 @@
-import { connectMysql, connectPostgresql } from "../mysql/connect.js";
+import { connectMysql, connectPostgresql, connectSQLite } from "../mysql/connect.js";
 
 export default async function getSchema(credentials, showKeyTo) {
     if (credentials.databaseType === "mysql") {
-        return await getSchemaMysql(credentials, showKeyTo);
+        return await getSchemaMySQL(credentials, showKeyTo);
     } else if (credentials.databaseType === "postgresql") {
-        return await getSchemaPostgresql(credentials, showKeyTo);
+        return await getSchemaPostgreSQL(credentials, showKeyTo);
+    } else if (credentials.databaseType === "sqlite") {
+        return await getSchemaSQLite(credentials, showKeyTo);
     }
 }
 
-function getSchemaMysql(credentials, showKeyTo) {
+function getSchemaMySQL(credentials, showKeyTo) {
 
     return new Promise(async (resolve, reject) => {
 
             try {
                 const connection = await connectMysql(credentials);
                 const [rows, fields] = await connection.execute("SHOW TABLES;");
-                // result is an array of objects: { Tables_in_DATABASE: 'tableName' } 
-                // where DATABASE is the actual name of the database 
-                // where DATABASE is the actual name of the database 
-                // where DATABASE is the actual name of the database 
-                // and Tables_in_ is hardcoded from mysql
-
                 const tableKey = `Tables_in_${credentials.database}`;
 
                 const schema = await Promise.all(rows.map(async (table) => {
@@ -28,7 +24,6 @@ function getSchemaMysql(credentials, showKeyTo) {
                     return await getTableSchemaMySQL(connection, tableName, showKeyTo);
                 }));
                 
-
                 connection.end();
                 resolve(schema);
             } catch (error) {
@@ -39,7 +34,7 @@ function getSchemaMysql(credentials, showKeyTo) {
     });
 }
 
-function getSchemaPostgresql(credentials, showKeyTo) {
+function getSchemaPostgreSQL(credentials, showKeyTo) {
 
     return new Promise(async (resolve, reject) => {
 
@@ -66,6 +61,32 @@ function getSchemaPostgresql(credentials, showKeyTo) {
 }
 
 
+function getSchemaSQLite(credentials, showKeyTo) {
+
+    return new Promise(async (resolve, reject) => {
+
+        try {
+            const db = await connectSQLite(credentials);
+
+            const tables = await db.all(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';"
+            );
+
+            const schema = await Promise.all(tables.map(async (table) => {
+                const tableName = table.name;
+                return await getTableSchemaSQLite(db, tableName, showKeyTo);
+            }));
+
+            await db.close();
+            resolve(schema);
+        } catch (error) {
+            console.log(error);
+            reject("Error connecting to database");
+        }
+
+    });
+}
+
 function getTableSchemaMySQL(connection, tableName, showKeyTo) {
     return new Promise(async (resolve, reject) => {
 
@@ -73,21 +94,6 @@ function getTableSchemaMySQL(connection, tableName, showKeyTo) {
             const getTableInfo = `SHOW FULL COLUMNS FROM ${tableName};`;
             const [rows, fields] = await connection.execute(getTableInfo);
 
-            // Array of objects with the following content:
-            /* 
-            
-            RowDataPacket {
-                Field: 'id',  <--- name of the field
-                Type: 'int',
-                Collation: null,
-                Null: 'NO',
-                Key: 'PRI',
-                Default: null,
-                Extra: 'auto_increment',
-                Privileges: 'select,insert,update,references',
-                Comment: ''
-            }
-            */
             let columns = rows;
             if (showKeyTo) {
                 columns = await Promise.all(rows.map(async (column) => {
@@ -125,7 +131,6 @@ function getTableSchemaPostgreSQL(connection, tableName, showKeyTo) {
             `;
             const { rows } = await connection.query(getTableInfo, [tableName]);
 
-            // Enhance columns with foreign key info if requested
             let columns = rows;
             if (showKeyTo) {
                 columns = await Promise.all(rows.map(async (column) => {
@@ -138,6 +143,40 @@ function getTableSchemaPostgreSQL(connection, tableName, showKeyTo) {
             }
 
             resolve({ table: tableName, columns });
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
+}
+
+function getTableSchemaSQLite(connection, tableName, showKeyTo) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getTableInfo = `
+                PRAGMA table_info(${tableName});
+            `;
+            const columns = await connection.all(getTableInfo);
+
+            const formattedColumns = columns.map(column => ({
+                Field: column.name,
+                Type: column.type,
+                Null: column.notnull === 0 ? "YES" : "NO",
+                Default: column.dflt_value,
+                Extra: column.pk ? 'PRIMARY KEY' : '',
+                Collation: null // SQLite does not have collation info in `PRAGMA table_info`
+            }));
+
+            if (showKeyTo) {
+                for (let column of formattedColumns) {
+                    const keyInfo = await getPointsToReferenceSQLite(connection, tableName, column.Field);
+                    if (keyInfo) {
+                        column.keyTo = keyInfo;
+                    }
+                }
+            }
+
+            resolve({ table: tableName, columns: formattedColumns });
         } catch (error) {
             console.log(error);
             reject(error);
@@ -193,3 +232,22 @@ async function getPointsToReferencePostgreSQL(connection, tableName, columnName)
     });
 }
 
+async function getPointsToReferenceSQLite(connection, tableName, columnName) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const getForeignKeyInfo = `
+                PRAGMA foreign_key_list(${tableName});
+            `;
+            const foreignKeys = await connection.all(getForeignKeyInfo);
+
+            const relatedKeys = foreignKeys
+                .filter(fk => fk.from === columnName)
+                .map(fk => `${fk.table}.${fk.to}`);
+
+            resolve(relatedKeys);
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
+}

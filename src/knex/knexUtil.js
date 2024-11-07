@@ -1,18 +1,37 @@
-export function createMigrationFileString(schema, reverseSchema) {
-    return (
+export function createMigrationFileString(schema, reverseSchema, moduleSyntax) {
+    if (moduleSyntax === "ES6") {
+        return (
+`
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export function up(knex) {
+    return knex.schema${schema.map(table => createMigrationTable(table)).join("")};    
+}
+
+export function down(knex) {
+    return knex.schema${reverseSchema.map(table => dropTables(table)).join("")};
+}
+`);
+    } else if (moduleSyntax === "CommonJS") {
+        return (
 `/**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema${schema.map(table => createMigrationTable(table)).join("")}        
+    return knex.schema${schema.map(table => createMigrationTable(table)).join("")};        
 };
 
 exports.down = function(knex) {
     return knex.schema${reverseSchema.map(table => dropTables(table)).join("")};
 };
 `);
+    }
+
 }
+
 
 export function createEmptyMigrationFileString() {
     return (
@@ -35,42 +54,41 @@ ${table.columns.map(column => createMigrationColumn(column)).join("")}
 
 function createMigrationColumn(column, table) {
     return (
-`           table.${lookupKnexTypeFromMysql(column, table)};
+`           table.${lookupKnexTypeFromSchema(column, table)};
 `
         );
 }
 
-export function lookupKnexTypeFromMysql(column) {
+export function lookupKnexTypeFromSchema(column) {
     let columnType;
     const columnName = `'${column.Field}'`;
     const additionalInfo = constructAdditionalInfo(column);
 
     if (column.Extra.includes("auto_increment")) {
         columnType = `increments(${columnName})`;
-    } else if (column.Type.includes("char") || column.Type.includes("varchar") || column.Type.includes("text")) {
-        columnType = `string(${columnName})`;
+    } else if (/char|varchar|text/.test(column.Type)) {
+        const lengthMatch = column.Type.match(/\((\d+)\)/);
+        const length = lengthMatch ? `, ${lengthMatch[1]}` : '';
+        columnType = `string(${columnName}${length})`;
     } else if (column.Type.includes("tinyint(1)")) {
         columnType = `boolean(${columnName})`;
     } else if (column.Type.includes("int")) {
         columnType = `integer(${columnName})`;
     } else if (column.Type.includes("bigint")) {
         columnType = `bigInteger(${columnName})`;
-    } else if (column.Type.includes("float")) {
+    } else if (column.Type.includes("float") || column.Type.includes("real")) {
         columnType = `float(${columnName})`;
-    } else if (column.Type.includes("decimal")) {
+    } else if (column.Type.includes("decimal") || column.Type.includes("numeric")) {
         columnType = `decimal(${columnName})`;
-    } else if (column.Type.includes("datetime")) {
+    } else if (column.Type.includes("datetime") || column.Type.includes("timestamp")) {
         columnType = `dateTime(${columnName})`;
     } else if (column.Type.includes("date")) {
         columnType = `date(${columnName})`;
-    } else if (column.Type.includes("timestamp")) {
-        columnType = `timestamp(${columnName})`;
     } else if (column.Type.includes("json")) {
         columnType = `json(${columnName})`;
-    } else if (column.Type.includes("blob")) {
+    } else if (column.Type.includes("blob") || column.Type.includes("binary")) {
         columnType = `binary(${columnName})`;
-    } else if (column.Type.includes("enum")) {
-        // Example ENUM type: column.Type = "enum('val1','val2')"
+    } else if (column.Type.startsWith("enum")) {
         const enumValues = column.Type.match(/\((.*)\)/)[1];
         columnType = `specificType(${columnName}, 'ENUM(${enumValues})')`;
     } else {
@@ -88,11 +106,12 @@ function constructAdditionalInfo(column) {
     }
 
     if (column.Default !== null) {
-        // it it's a nextval sequence field in PostgreSQl
         if (column.Default.includes("nextval")) {
             additionalInfo += `.primary()`;
+        } else if (column.Default.toLowerCase() === "current_timestamp") {
+            additionalInfo += `.defaultTo(knex.fn.now())`;
         } else {
-            additionalInfo += `.defaultTo('${column.Default}')`;
+            additionalInfo += `.defaultTo('${column.Default.replace(/'/g, "''")}')`;
         }
     }
 
@@ -108,17 +127,15 @@ function constructAdditionalInfo(column) {
         additionalInfo += `.index()`;
     }
 
-    if (column.Key === "PRI") {
+    if (column.Key === "PRI" && !additionalInfo.includes(`.primary()`)) {
         additionalInfo += `.primary()`;
     }
 
     if (column.keyTo) {
         column.keyTo.forEach((keyTo) => {
-            const currentColumn = column.Field;
             const [foreignTable, foreignColumn] = keyTo.split('.');
-
             additionalInfo += `;
-           table.foreign('${currentColumn}').references('${foreignColumn}').inTable('${foreignTable}')`;
+           table.foreign('${column.Field}').references('${foreignColumn}').inTable('${foreignTable}')`;
         });
     }
 

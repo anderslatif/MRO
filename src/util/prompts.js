@@ -1,12 +1,13 @@
 import inquirer from "inquirer";
 import chalk from "chalk";
+import fs from "fs";
 
 function chooseDatabase() {
     return inquirer.prompt([{
         type: "list",
         name: "databaseType",
         message: "Choose database",
-        choices: ["mysql", "postgresql"]    
+        choices: ["mysql", "postgresql", "sqlite"]    
     }])
     .catch(error => {
         if(error.isTtyError) {
@@ -39,19 +40,7 @@ export function typeHost() {
     });
 }
 
-export function typeDatabaseName() {
-    return inquirer.prompt([{
-        type: "input",
-        name: "database",
-        message: "Type your database name."  
-    }])
-    .catch(error => {
-        console.log(error);
-    });
-}
-
 export function typePort(databaseType) {
-    console.log("databaseType", databaseType);
     const defaultPort = { mysql: 3306, postgresql: 5432 }[databaseType] || '';
     
     return inquirer.prompt([{
@@ -59,6 +48,34 @@ export function typePort(databaseType) {
         name: "port",
         message: "Type your database port.",
         default: defaultPort
+    }])
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+export function typeDbPath() {
+    return inquirer.prompt([{
+        type: "input",
+        name: "dbPath",
+        message: "Point to your database file.",
+        validate: (input) => {
+            if (fs.existsSync(input)) {
+                return true;
+            }
+            return "File not found. Please provide a valid path.";
+        }
+    }])
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+export function typeDatabaseName() {
+    return inquirer.prompt([{
+        type: "input",
+        name: "database",
+        message: "Type your database name."  
     }])
     .catch(error => {
         console.log(error);
@@ -93,6 +110,18 @@ export function outputFormat() {
         name: "outputFormat",
         message: "Choose an output format.",
         choices: ["JSON (MYSQL Data types/JS Data Types)", 'HTML Page', "Knex.js Migrations", "Objection.js Models"]  
+    }])
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+export function chooseModuleSyntax() {
+    return inquirer.prompt([{
+        type: "list",
+        name: "moduleSyntax",
+        message: "Choose your desired module syntax for the Knex.js migration files.",
+        choices: ["CommonJS", "ES6"]  
     }])
     .catch(error => {
         console.log(error);
@@ -136,4 +165,4 @@ export function selectTables(tables) {
 }
 
 
-export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePort, typePassword, outputFormat, outputMysqlKeysToKeep, selectTables };
+export default { chooseDatabase, typeHost, typeDatabaseName, typeUser, typePort, typeDbPath, typePassword, outputFormat, chooseModuleSyntax, outputMysqlKeysToKeep, selectTables };

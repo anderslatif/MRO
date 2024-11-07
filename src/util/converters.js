@@ -52,7 +52,7 @@ export async function convertToKnexMigration(credentials) {
         const sortedSchema = sortSchema(schemaWithoutKnexTables, [...sortedTables]);
         const sortedSchemaReversed = [...sortedSchema].reverse();
 
-        fileString = createMigrationFileString(sortedSchema, sortedSchemaReversed);
+        fileString = createMigrationFileString(sortedSchema, sortedSchemaReversed, credentials.moduleSyntax);
     
     } else {
         fileString = createEmptyMigrationFileString();

@@ -1,5 +1,7 @@
 import mysql from "mysql2/promise";
 import pg from "pg";
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
 
 export async function connectMysql(credentials) {
     const connection = await mysql.createConnection({
@@ -18,9 +20,18 @@ export async function connectPostgresql(credentials) {
         database : credentials.database,
         user     : credentials.user,
         password : credentials.password,
-        port     : credentials.port, // Optional, default is 5432 for PostgreSQL
+        port     : credentials.port,
     });
 
     await client.connect();
     return client;
+}
+
+export async function connectSQLite(credentials) {
+    const db = await open({
+        filename: credentials.dbPath,
+        driver: sqlite3.Database
+    });
+
+    return db;
 }

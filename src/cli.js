@@ -6,17 +6,25 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
 
 (async () => {
 
-    let credentials;
+    let credentials = {};
 
     if (!process.env.DB_HOST) {
-        const { databaseType } = await prompt.chooseDatabase();
-        const { host } = await prompt.typeHost();
-        const { port } = await prompt.typePort(databaseType);
-        const { database } = await prompt.typeDatabaseName();
-        const { user } = await prompt.typeUser();
-        const { password } = await prompt.typePassword();
 
-        credentials = { databaseType, host, database, port, user, password };
+        const { databaseType } = await prompt.chooseDatabase();
+    
+        if (["mysql", "postgresql"].includes(databaseType)) {
+            const { host } = await prompt.typeHost();
+            const { port } = await prompt.typePort(databaseType);
+            const { database } = await prompt.typeDatabaseName();
+            const { user } = await prompt.typeUser();
+            const { password } = await prompt.typePassword();
+    
+            credentials = { databaseType, host, database, port, user, password };
+        } else if (databaseType === "sqlite") {
+            const { dbPath } = await prompt.typeDbPath();
+            
+            credentials = { databaseType, dbPath, database: "sqlite" };
+        }
 
     } else {
 
@@ -40,6 +48,8 @@ import { convertToJSON, convertToHTML, convertToKnexMigration, convertToObjectio
         const { mysqlKeysToKeep } = await prompt.outputMysqlKeysToKeep();
         convertToHTML(credentials, mysqlKeysToKeep);
     } else if (outputFormat === "Knex.js Migrations") {
+        const { moduleSyntax } = await prompt.chooseModuleSyntax();
+        credentials.moduleSyntax = moduleSyntax;
         convertToKnexMigration(credentials);
     } else if (outputFormat === "Objection.js Models") {
         convertToObjection(credentials);
