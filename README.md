@@ -65,6 +65,7 @@ Just run it where you want the file(s) to be output to.
 
 - MySQL
 - PostgreSQL
+- SQLite
 
 ## Support for other languages/frameworks
 
