@@ -4,7 +4,7 @@ export function convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo) {
     return schema.map(table => {
         const columns = table.columns.map(column => {
             let tableInfo = {};
-            mysqlKeysToKeep.map(keyToKeep => {
+            mysqlKeysToKeep.forEach(keyToKeep => {
                 if (column[keyToKeep]) {
                     tableInfo[keyToKeep.toLowerCase()] = column[keyToKeep];
                 }
@@ -13,7 +13,6 @@ export function convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo) {
                 tableInfo.typeJS = convertMysqlTypesToJavascript(column.Type.toUpperCase());
             }
             if (showKeyTo) {
-                delete tableInfo.keyto;
                 tableInfo.keyTo = column.keyTo;
             }
             return tableInfo;

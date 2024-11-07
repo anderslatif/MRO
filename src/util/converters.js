@@ -1,4 +1,4 @@
-import getSchema from '../mysql/queries.js';
+import getSchema from '../util/getSchema.js';
 import { prettyPrintSchema, convertSchemaToNeatJson } from '../mysql/mysqlUtil.js';
 import { getHTMLDocument } from '../html/htmlDocsUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';

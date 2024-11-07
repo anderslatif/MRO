@@ -146,7 +146,7 @@ function constructAdditionalInfo(column) {
 function dropTables(table) {
     return (
 `
-           .dropTable('${table.table}')`
+        .dropTable('${table.table}')`
     );
 }
 
