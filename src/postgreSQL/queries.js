@@ -1,35 +1,32 @@
-import { connectPostgresql } from "./connect.js";
+import { connectPostgresql } from './connect.js';
 
 export function getSchemaPostgreSQL(credentials, showKeyTo) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const client = await connectPostgresql(credentials);
 
-    return new Promise(async (resolve, reject) => {
+      const result = await client.query(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';",
+      );
 
-        try {
-            const client = await connectPostgresql(credentials);
+      const schema = await Promise.all(result.rows.map(async (row) => {
+        const tableName = row.table_name;
+        return await getTableSchemaPostgreSQL(client, tableName, showKeyTo);
+      }));
 
-            const result = await client.query(
-                "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
-            );
-
-            const schema = await Promise.all(result.rows.map(async (row) => {
-                const tableName = row.table_name;
-                return await getTableSchemaPostgreSQL(client, tableName, showKeyTo);
-            }));
-
-            await client.end();
-            resolve(schema);
-        } catch (error) {
-            console.log(error);
-            reject("Error connecting to database");
-        }
-
-    });
+      await client.end();
+      resolve(schema);
+    } catch (error) {
+      console.log(error);
+      reject('Error connecting to database');
+    }
+  });
 }
 
 function getTableSchemaPostgreSQL(connection, tableName, showKeyTo) {
-    return new Promise(async (resolve, reject) => {
-        try {
-                const getTableInfo = `
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getTableInfo = `
                 SELECT 
                     column_name AS "Field",
                     data_type AS "Type",
@@ -43,31 +40,31 @@ function getTableSchemaPostgreSQL(connection, tableName, showKeyTo) {
                     table_name = $1
                     AND table_schema = 'public';
             `;
-            const { rows } = await connection.query(getTableInfo, [tableName]);
+      const { rows } = await connection.query(getTableInfo, [tableName]);
 
-            let columns = rows;
-            if (showKeyTo) {
-                columns = await Promise.all(rows.map(async (column) => {
-                    const keyInfo = await getPointsToReferencePostgreSQL(connection, tableName, column.Field);
-                    if (keyInfo) {
-                        column.keyTo = keyInfo;
-                    }
-                    return column;
-                }));
-            }
+      let columns = rows;
+      if (showKeyTo) {
+        columns = await Promise.all(rows.map(async (column) => {
+          const keyInfo = await getPointsToReferencePostgreSQL(connection, tableName, column.Field);
+          if (keyInfo) {
+            column.keyTo = keyInfo;
+          }
+          return column;
+        }));
+      }
 
-            resolve({ table: tableName, columns });
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
+      resolve({ table: tableName, columns });
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }
 
 async function getPointsToReferencePostgreSQL(connection, tableName, columnName) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const getTableInfo = `
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getTableInfo = `
                 SELECT 
                     tc.table_name AS referenced_table,
                     kcu.column_name AS referenced_column
@@ -85,12 +82,12 @@ async function getPointsToReferencePostgreSQL(connection, tableName, columnName)
                     AND kcu.column_name = $2;
             `;
 
-            const { rows } = await connection.query(getTableInfo, [tableName, columnName]);
+      const { rows } = await connection.query(getTableInfo, [tableName, columnName]);
 
-            resolve(rows.map(relation => `${relation.referenced_table}.${relation.referenced_column}`));
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
+      resolve(rows.map(relation => `${relation.referenced_table}.${relation.referenced_column}`));
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
 }

@@ -1,7 +1,5 @@
-
-
 export function getHTMLDocument(tables, database) {
-    const htmlTop = `<!DOCTYPE html>
+  const htmlTop = `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -66,51 +64,49 @@ export function getHTMLDocument(tables, database) {
             <h1>%%DATABASE_NAME%%</h1>
     
             <div class="database-table">`
-        .replaceAll('%%DATABASE_NAME%%', database);
+    .replaceAll('%%DATABASE_NAME%%', database);
 
-        const htmlBottom = `</div>
+  const htmlBottom = `</div>
             </main> 
             <br><br>
             <footer>Powered by MRO</footer>
         </body>
         </html>`;
 
-    const htmlTables = tables.map(table => createHTMLTableForDatabaseTable(table)).join("");
-    return htmlTop + htmlTables + htmlBottom;
+  const htmlTables = tables.map(table => createHTMLTableForDatabaseTable(table)).join('');
+  return htmlTop + htmlTables + htmlBottom;
 }
 
 function createHTMLTableForDatabaseTable(table) {
-    const databaseFields = Object.keys(table.columns[0]);
+  const databaseFields = Object.keys(table.columns[0]);
 
-    const htmlTableTitle = `
+  const htmlTableTitle = `
         <h2 class="database-table-name">${table.table}</h2>`;
-    const htmlTableHeaders = `
+  const htmlTableHeaders = `
         <table class="database-table-body">
             <tr>
-                ${databaseFields.map(columnKey => `<th>${columnKey}</th>`).join("")}                 
+                ${databaseFields.map(columnKey => `<th>${columnKey}</th>`).join('')}                 
             </tr>
     `;
-    const htmlTableHeadersEnd = `
+  const htmlTableHeadersEnd = `
         </tr>
         </thead>
         <tbody>
     `;
-    const htmlTableRows = `
+  const htmlTableRows = `
             ${table.columns.map(column => {
-                return `
+    return `
                 <tr>
-                    ${databaseFields.map(field => `<td>${column[field] || ''}</td>`).join("")}
+                    ${databaseFields.map(field => `<td>${column[field] || ''}</td>`).join('')}
                 </tr>
                 `;
-            }).join("")}
+  }).join('')}
     `;
 
-    const htmlTableBodyEnd = `
+  const htmlTableBodyEnd = `
         </tbody>
         </table>
     `;
 
-    return htmlTableTitle + htmlTableHeaders + htmlTableHeadersEnd + htmlTableRows + htmlTableBodyEnd;
+  return htmlTableTitle + htmlTableHeaders + htmlTableHeadersEnd + htmlTableRows + htmlTableBodyEnd;
 }
-
-
