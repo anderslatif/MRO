@@ -2,9 +2,9 @@
 
 **M**odel **R**elations to **O**bjects
 
-###### ORM but in reverse
+> ORM but in reverse
 
-Reads the schema of relational database (MySQL/PostgreSQL) and outputs to objects in JSON or Javascript. 
+Reads the schema of relational database (MySQL/PostgreSQL/SQLite) and outputs to objects in JSON, Javascript or creates Knex migrations. 
 
 ## Why
 
