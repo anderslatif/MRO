@@ -8,7 +8,9 @@
     "mro": "src/cli.js"
   },
   "scripts": {
-    "dev": "NODE_ENV=dev node src/cli.js",
+    "dev": "node src/cli.js",
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix",
     "test": "mocha 'tests/**/*test.js'"
   },
   "repository": {
@@ -39,10 +41,10 @@
   },
   "homepage": "https://github.com/anderslatif/MRO#readme",
   "dependencies": {
+    "@inquirer/prompts": "^7.2.1",
     "chalk": "^4.1.1",
     "dotenv": "^9.0.2",
-    "inquirer": "^8.0.0",
-    "mysql2": "^2.3.3",
+    "mysql2": "^3.12.0",
     "pg": "^8.13.1",
     "pluralize": "^8.0.0",
     "sqlite": "^5.1.1",

@@ -1,182 +1,197 @@
-import inquirer from 'inquirer';
+import { select, confirm, input, checkbox} from '@inquirer/prompts';
 import chalk from 'chalk';
 import fs from 'fs';
+import * as getEnvVariables from './getEnvironmentVariables.js';
 
-function chooseDatabase() {
-  return inquirer.prompt([{
-    type: 'list',
-    name: 'databaseType',
+
+export async function chooseDatabaseType() {
+  if (getEnvVariables.getDatabaseType()) {
+    return getEnvVariables.getDatabaseType();
+  }
+  return await select({
     message: 'Choose database',
-    choices: ['mysql', 'postgresql', 'sqlite'],
-  }])
-    .catch(error => {
-      if (error.isTtyError) {
-        console.log("Prompt couldn't be rendered in the current environment");
-      } else {
-        console.log(error);
-      }
-    });
-}
-
-export function typeHost() {
-  return inquirer.prompt([{
-    type: 'confirm',
-    name: 'isLocalhost',
-    message: 'Is your database hosted on localhost.',
-  }])
-    .then(answer => {
-      if (answer.isLocalhost) {
-        return { host: 'localhost' };
-      } else {
-        return inquirer.prompt([{
-          type: 'input',
-          name: 'host',
-          message: 'Type your database host address.',
-        }]);
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function typePort(databaseType) {
-  const defaultPort = { mysql: 3306, postgresql: 5432 }[databaseType] || '';
-
-  return inquirer.prompt([{
-    type: 'input',
-    name: 'port',
-    message: 'Type your database port.',
-    default: defaultPort,
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function typeDbPath() {
-  return inquirer.prompt([{
-    type: 'input',
-    name: 'dbPath',
-    message: 'Point to your database file.',
-    validate: (input) => {
-      if (fs.existsSync(input)) {
-        return true;
-      }
-      return 'File not found. Please provide a valid path.';
-    },
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function typeDatabaseName() {
-  return inquirer.prompt([{
-    type: 'input',
-    name: 'database',
-    message: 'Type your database name.',
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function typeUser() {
-  return inquirer.prompt([{
-    type: 'input',
-    name: 'user',
-    message: 'Type your database username.',
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function typePassword() {
-  return inquirer.prompt([{
-    type: 'password',
-    name: 'password',
-    message: 'Type your database password.',
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function outputFormat() {
-  return inquirer.prompt([{
-    type: 'list',
-    name: 'outputFormat',
-    message: 'Choose an output format.',
-    choices: ['JSON (MYSQL Data types/JS Data Types)', 'HTML Page', 'Knex.js Migrations', 'Objection.js Models'],
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function chooseModuleSyntax() {
-  return inquirer.prompt([{
-    type: 'list',
-    name: 'moduleSyntax',
-    message: 'Choose your desired module syntax for the Knex.js migration files.',
-    choices: ['CommonJS', 'ES6'],
-  }])
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-export function outputMysqlKeysToKeep() {
-  return inquirer.prompt([{
-    type: 'checkbox',
-    name: 'mysqlKeysToKeep',
-    message: 'Select the key-value pairs you want.',
     choices: [
-      { checked: true, value: 'Field', name: chalk.grey.inverse.bold(' field    ') + ': column name' },
-      { checked: true, value: 'Type', name: chalk.grey.inverse.bold(' type     ') + ': int/varchar(255) etc.' },
-      { value: 'Default',             name: chalk.grey.inverse.bold(' default  ') + ': null, timestamp etc.' },
-      { value: 'Null',                name: chalk.grey.inverse.bold(' null     ') + ': YES/NO' },
-      { value: 'Key',                 name: chalk.grey.inverse.bold(' key      ') + ': PRI/MUL etc.' },
-      { value: 'keyTo',               name: chalk.grey.inverse.bold(' keyTo    ') + ": Array of references 'table.columnName' if key is a Foreign Key" },
-      { value: 'Extra',               name: chalk.grey.inverse.bold(' extra    ') + ': AUTO_INCREMENT etc.' },
-      {
-        value: 'typeJS',
-        name: chalk.grey.inverse.bold(' typeJS   ') + ': Number/String etc.\n'
-            + chalk.grey(' about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting'),
-      },
+      { name: 'MySQL', value: 'mysql' },
+      { name: 'PostgreSQL', value: 'postgresql' },
+      { name: 'SQLite', value: 'sqlite' },
     ],
-  }])
-    .catch(error => {
-      console.log('error', error);
-    });
+  });
 }
 
-export function selectTables(tables) {
-  return inquirer.prompt([{
-    type: 'checkbox',
-    name: 'tables',
-    message: 'Select the tables you want to document.',
-    choices: tables.map(table => {
-      return { checked: true, value: table.table, name: table.table };
-    }),
-  }])
-    .catch(error => {
-      console.log('error', error);
-    });
+export async function typeHost() {
+	const host = getEnvVariables.getHost();
+	if (host) {
+		return host;
+	}
+
+	const isLocalhost = await confirm({
+		message: 'Is your database hosted on localhost?',
+	});
+
+	if (isLocalhost) {
+		return 'localhost';
+	}
+
+	return await input({
+		message: 'Type your database host address (IP address or hostname):',
+	});
 }
 
-export default {
-  chooseDatabase,
-  typeHost,
-  typeDatabaseName,
-  typeUser,
-  typePort,
-  typeDbPath,
-  typePassword,
-  outputFormat,
-  chooseModuleSyntax,
-  outputMysqlKeysToKeep,
-  selectTables,
-};
+export async function typePort(databaseType) {
+	if (getEnvVariables.getPort()) {
+		return getEnvVariables.getPort();
+	}
+
+	const defaultPort = { mysql: 3306, postgresql: 5432 }[databaseType] || '';
+
+	return await input({
+		type: 'input',
+		name: 'port',
+		message: 'Type your database port.',
+		default: defaultPort,
+		validate: (input) => {
+			if (Number.isInteger(Number(input))) {
+				return true;
+			}
+			return 'Please provide a valid port number.';
+		},
+	});
+}
+
+export async function typeDbPath() {
+	if (getEnvVariables.getDbPath()) {
+		return getEnvVariables.getDbPath();
+	}
+
+	return await input({
+		message: 'Point to your database file.',
+		validate: (input) => {
+			if (fs.existsSync(input)) {
+				return true;
+			}
+			return 'File not found. Please provide a valid path.';
+		},
+	});
+}
+
+export async function typeDatabaseName() {
+	const databaseName = getEnvVariables.getDatabaseName();
+	if (databaseName) {
+		return databaseName;
+	}
+
+	return await input({
+		message: 'Type your database name:',
+	});
+}
+
+export async function typeUser() {
+	if (getEnvVariables.getUser()) {
+		return getEnvVariables.getUser();
+	}
+
+	return await input({
+		message: 'Type your database username:',
+	});
+}
+
+export async function typePassword() {
+	if (getEnvVariables.getPassword()) {
+		return getEnvVariables.getPassword();
+	}
+
+	return await password({
+		message: 'Type your database password:',
+	});
+}
+
+export async function outputFormat() {
+	if (getEnvVariables.getOutputFormat()) {
+		return getEnvVariables.getOutputFormat();
+	}
+
+	return await select({
+		message: 'Choose an output format:',
+		choices: [
+			{ name: 'JSON (MYSQL Data types/JS Data Types)', value: 'json' },
+			{ name: 'HTML Page', value: 'html' },
+			{ name: 'Knex.js Migrations', value: 'knex' },
+			{ name: 'Objection.js Models', value: 'objection' },
+		],
+	});
+}
+
+export async function chooseModuleSyntax() {
+	if (getEnvVariables.getKnexModuleSyntax()) {
+		return getEnvVariables.getKnexModuleSyntax();
+	}
+
+	return await select({
+		message: 'Choose your desired module syntax for the Knex.js migration files:',
+		choices: [
+			{ name: 'CommonJS', value: 'commonjs' },
+			{ name: 'ES6', value: 'es6' },
+		],
+	});
+}
+
+export async function outputMysqlKeysToKeep() {
+	if (getEnvVariables.getMysqlKeysToKeep()) {
+		const variations = [
+			'MYSQL_KEYS_TO_KEEP',
+			'MRO_MYSQL_KEYS_TO_KEEP',
+		];
+
+		const keys = variations
+			.map((variation) => process.env[variation])
+			.find((value) => value !== undefined)
+			.split(',')
+			.map((key) => key.trim());
+
+		return keys.map((key) => ({
+			checked: true,
+			value: key,
+			name: chalk.grey.inverse.bold(` ${key.toLowerCase()} `) + `: description of ${key}`,
+		}));
+	}
+
+	return await checkbox({
+		message: 'Select the key-value pairs you want:',
+		choices: [
+			{ checked: true, value: 'Field', name: chalk.grey.inverse.bold(' field    ') + ': column name' },
+			{ checked: true, value: 'Type', name: chalk.grey.inverse.bold(' type     ') + ': int/varchar(255) etc.' },
+			{ value: 'Default', name: chalk.grey.inverse.bold(' default  ') + ': null, timestamp etc.' },
+			{ value: 'Null', name: chalk.grey.inverse.bold(' null     ') + ': YES/NO' },
+			{ value: 'Key', name: chalk.grey.inverse.bold(' key      ') + ': PRI/MUL etc.' },
+			{ value: 'keyTo', name: chalk.grey.inverse.bold(' keyTo    ') + ": Array of references 'table.columnName' if key is a Foreign Key" },
+			{ value: 'Extra', name: chalk.grey.inverse.bold(' extra    ') + ': AUTO_INCREMENT etc.' },
+			{
+				value: 'typeJS',
+				name:
+					chalk.grey.inverse.bold(' typeJS   ') +
+					': Number/String etc.\n' +
+					chalk.grey(' about type casting to JavaScript: https://www.npmjs.com/package/mysql#type-casting'),
+			},
+		],
+	});
+}
+
+export async function selectTables(tables) {
+	if (getEnvVariables.getAllSelectedTables()) {
+		return tables.map((table) => ({
+			checked: true,
+			value: table.table,
+			name: table.table,
+		}));
+	}
+
+	return await checkbox({
+		message: 'Select the tables you want to document:',
+		choices: tables.map((table) => ({
+			checked: true,
+			value: table.table,
+			name: table.table,
+		})),
+	});
+}
+

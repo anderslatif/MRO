@@ -3,9 +3,12 @@ import 'dotenv/config';
 export function getDatabaseType() {
 	const variations = [
 		'DB_TYPE',
-    	'DATABASE_TYPE',
+		'DATABASE_TYPE',
 	];
-	return variations.find((variation) => process.env[variation]);
+	const validTypes = ['mysql', 'postgresql', 'sqlite'];
+	return variations
+		.map((variation) => process.env[variation]?.toLowerCase())
+		.find((value) => validTypes.includes(value));
 }
 
 export function getHost() {
@@ -18,7 +21,9 @@ export function getHost() {
 		'POSTGRES_HOST',
 		'POSTGRESQL_HOST',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 export function getDatabaseName() {
@@ -34,7 +39,9 @@ export function getDatabaseName() {
 		'POSTGRESQL_DATABASE',
 		'POSTGRESQL_DB',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 export function getUser() {
@@ -48,7 +55,9 @@ export function getUser() {
 		'POSTGRES_USER',
 		'POSTGRESQL_USER',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 export function getPassword() {
@@ -62,9 +71,11 @@ export function getPassword() {
 		'POSTGRES_PASSWORD',
 		'POSTGRES_PASS',
 		'POSTGRESQL_PASSWORD',
-		'POSTGRESWL_PASS',
+		'POSTGRESQL_PASS',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 export function getPort() {
@@ -76,7 +87,9 @@ export function getPort() {
 		'POSTGRES_PORT',
 		'POSTGRESQL_PORT',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 // for SQLite
@@ -85,5 +98,47 @@ export function getDatabasePath() {
 		'DB_PATH',
 		'DATABASE_PATH',
 	];
-	return variations.find((variation) => process.env[variation]);
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
+}
+
+export function getOutputFormat() {
+  const variations = [
+    'OUTPUT_FORMAT',
+    'MRO_OUTPUT',
+    'MRO_OUTPUT_FORMAT',
+  ];
+  return variations
+    .map((variation) => process.env[variation])
+    .find((value) => value !== undefined);
+}
+
+export function getKnexModuleSyntax() {
+	const variations = [
+		'MODULE_SYNTAX',
+		'MRO_MODULE_SYNTAX',
+	];
+
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined) || null;
+}
+
+export function getMysqlKeysToKeep() {
+	const variations = [
+		'MYSQL_KEYS_TO_KEEP',
+		'MRO_MYSQL_KEYS_TO_KEEP',
+	];
+
+	return variations.some((variation) => process.env[variation] !== undefined);
+}
+
+export function getAllSelectedTables() {
+	const variations = [
+		'ALL_TABLES',
+		'MRO_ALL_TABLES',
+	];
+
+	return variations.some((variation) => process.env[variation] !== undefined);
 }

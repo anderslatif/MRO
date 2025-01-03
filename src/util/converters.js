@@ -5,7 +5,7 @@ import { createMigrationFileString, createEmptyMigrationFileString } from '../kn
 import { getKnexTimestampString } from '../knex/timeUtil.js';
 import { createObjectionFileString } from '../objection/objectionUtil.js';
 import { toPascalCase } from '../objection/casingUtil.js';
-import prompts from './prompts.js';
+import * as prompts from './prompts.js';
 import fs from 'fs';
 import path from 'path';
 import { createDependencyGraph, topologicalSort, sortSchema } from '../knex/dependencyGraph.js';

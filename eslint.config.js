@@ -1,8 +1,7 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import airbnbBase from "eslint-config-airbnb-base";
-import airbnbRules from "eslint-config-airbnb-base/rules/style";
-
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import airbnbBase from 'eslint-config-airbnb-base';
+import airbnbRules from 'eslint-config-airbnb-base/rules/style';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -14,7 +13,8 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
-      "no-async-promise-executor": "off",
+      'no-async-promise-executor': 'off',
+      indent: ['error', 4],
       ...airbnbBase.rules,
       ...airbnbRules.rules,
     },
