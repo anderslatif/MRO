@@ -11,7 +11,9 @@
     "dev": "node src/cli.js",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
-    "test": "mocha 'tests/**/*test.js'"
+    "test-mysql": "mocha './tests/mysqlTests'",
+    "test-postgresql": "mocha './tests/postgresqlTests'",
+    "test-sqlite": "mocha './tests/sqliteTests'"
   },
   "repository": {
     "type": "git",

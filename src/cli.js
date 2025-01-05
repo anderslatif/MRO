@@ -31,16 +31,16 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 
 const outputFormat = await prompt.outputFormat();
 
-if (outputFormat === 'JSON (MYSQL Data types/JS Data Types)') {
+if (outputFormat === 'json') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
     convertToJSON(credentials, mysqlKeysToKeep);
-} else if (outputFormat === 'HTML Page') {
+} else if (outputFormat === 'html') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
     convertToHTML(credentials, mysqlKeysToKeep);
-} else if (outputFormat === 'Knex.js Migrations') {
+} else if (outputFormat === 'knex') {
     const moduleSyntax = await prompt.chooseModuleSyntax();
     credentials.moduleSyntax = moduleSyntax;
     convertToKnexMigration(credentials);
-} else if (outputFormat === 'Objection.js Models') {
+} else if (outputFormat === 'objection') {
     convertToObjection(credentials);
 }

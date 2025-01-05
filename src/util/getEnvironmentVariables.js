@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 export function getDatabaseType() {
 	const variations = [
-		'DB_TYPE',
 		'DATABASE_TYPE',
+		'DB_TYPE',
 	];
 	const validTypes = ['mysql', 'postgresql', 'sqlite'];
 	return variations
@@ -13,13 +13,13 @@ export function getDatabaseType() {
 
 export function getHost() {
 	const variations = [
-		'DB_HOST',
 		'DATABASE_HOST',
-		'SQL_HOST',
+		'DB_HOST',
 		'DB_SERVER',
 		'PG_HOST',
 		'POSTGRES_HOST',
 		'POSTGRESQL_HOST',
+		'SQL_HOST',
 	];
 	return variations
 		.map((variation) => process.env[variation])
@@ -28,10 +28,10 @@ export function getHost() {
 
 export function getDatabaseName() {
 	const variations = [
-		'DB_DATABASE',
 		'DATABASE',
-		'DB_NAME',
 		'DATABASE_NAME',
+		'DB_DATABASE',
+		'DB_NAME',
 		'PG_DATABASE',
 		'PG_DB',
 		'POSTGRES_DATABASE',
@@ -46,14 +46,14 @@ export function getDatabaseName() {
 
 export function getUser() {
 	const variations = [
-		'DB_USER',
 		'DATABASE_USER',
-		'USER',
+		'DB_USER',
 		'DB_USERNAME',
-		'USERNAME',
 		'PG_USER',
 		'POSTGRES_USER',
 		'POSTGRESQL_USER',
+		'USER',
+		'USERNAME',
 	];
 	return variations
 		.map((variation) => process.env[variation])
@@ -62,16 +62,16 @@ export function getUser() {
 
 export function getPassword() {
 	const variations = [
-		'DB_PASSWORD',
 		'DATABASE_PASSWORD',
-		'PASSWORD',
 		'DB_PASS',
-		'PG_PASSWORD',
+		'DB_PASSWORD',
 		'PG_PASS',
-		'POSTGRES_PASSWORD',
+		'PG_PASSWORD',
 		'POSTGRES_PASS',
-		'POSTGRESQL_PASSWORD',
+		'POSTGRES_PASSWORD',
 		'POSTGRESQL_PASS',
+		'POSTGRESQL_PASSWORD',
+		'PASSWORD',
 	];
 	return variations
 		.map((variation) => process.env[variation])
@@ -80,12 +80,12 @@ export function getPassword() {
 
 export function getPort() {
 	const variations = [
-		'DB_PORT',
 		'DATABASE_PORT',
-		'SQL_PORT',
+		'DB_PORT',
 		'PG_PORT',
 		'POSTGRES_PORT',
 		'POSTGRESQL_PORT',
+		'SQL_PORT',
 	];
 	return variations
 		.map((variation) => process.env[variation])
@@ -95,8 +95,8 @@ export function getPort() {
 // for SQLite
 export function getDatabasePath() {
 	const variations = [
-		'DB_PATH',
 		'DATABASE_PATH',
+		'DB_PATH',
 	];
 	return variations
 		.map((variation) => process.env[variation])
@@ -104,20 +104,20 @@ export function getDatabasePath() {
 }
 
 export function getOutputFormat() {
-  const variations = [
-    'OUTPUT_FORMAT',
-    'MRO_OUTPUT',
-    'MRO_OUTPUT_FORMAT',
-  ];
-  return variations
-    .map((variation) => process.env[variation])
-    .find((value) => value !== undefined);
+	const variations = [
+		'MRO_OUTPUT',
+		'MRO_OUTPUT_FORMAT',
+		'OUTPUT_FORMAT',
+	];
+	return variations
+		.map((variation) => process.env[variation])
+		.find((value) => value !== undefined);
 }
 
 export function getKnexModuleSyntax() {
 	const variations = [
-		'MODULE_SYNTAX',
 		'MRO_MODULE_SYNTAX',
+		'MODULE_SYNTAX',
 	];
 
 	return variations
@@ -127,8 +127,8 @@ export function getKnexModuleSyntax() {
 
 export function getMysqlKeysToKeep() {
 	const variations = [
-		'MYSQL_KEYS_TO_KEEP',
-		'MRO_MYSQL_KEYS_TO_KEEP',
+		'MRO_MYSQL_KEEP_ALL_KEYS',
+		'MYSQL_KEEP_ALL_KEYS',
 	];
 
 	return variations.some((variation) => process.env[variation] !== undefined);

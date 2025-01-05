@@ -59,8 +59,8 @@ export async function typePort(databaseType) {
 }
 
 export async function typeDbPath() {
-	if (getEnvVariables.getDbPath()) {
-		return getEnvVariables.getDbPath();
+	if (getEnvVariables.getDatabasePath()) {
+		return getEnvVariables.getDatabasePath();
 	}
 
 	return await input({
@@ -113,8 +113,8 @@ export async function outputFormat() {
 	return await select({
 		message: 'Choose an output format:',
 		choices: [
-			{ name: 'JSON (MYSQL Data types/JS Data Types)', value: 'json' },
-			{ name: 'HTML Page', value: 'html' },
+			{ name: 'JSON', value: 'json' },
+			{ name: 'HTML Documentation', value: 'html' },
 			{ name: 'Knex.js Migrations', value: 'knex' },
 			{ name: 'Objection.js Models', value: 'objection' },
 		],
@@ -138,8 +138,8 @@ export async function chooseModuleSyntax() {
 export async function outputMysqlKeysToKeep() {
 	if (getEnvVariables.getMysqlKeysToKeep()) {
 		const variations = [
-			'MYSQL_KEYS_TO_KEEP',
-			'MRO_MYSQL_KEYS_TO_KEEP',
+			'KEYS_TO_KEEP',
+			'MRO_KEYS_TO_KEEP',
 		];
 
 		const keys = variations
