@@ -13,13 +13,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
-          sudo pip3 install docker-compose
       - name: Start MySQL
         run: docker-compose -f tests/mysql/docker-compose.yml up -d
       - name: Wait for MySQL to be ready
         run: |
-          while [ "$(docker inspect -f '{{.State.Health.Status}}' tests_mysql_1)" != "healthy" ]; do
+          service_name=$(docker-compose -f tests/mysql/docker-compose.yml ps -q db)
+          while [ "$(docker inspect -f '{{.State.Health.Status}}' $service_name)" != "healthy" ]; do
             echo "Waiting for MySQL to become healthy..."
             sleep 2
           done
-          
+      - name: Run tests
+        run: |
+          # Replace with your actual test command
+          echo "Run your database tests here."

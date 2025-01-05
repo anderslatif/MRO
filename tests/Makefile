@@ -18,7 +18,7 @@ access_postgresql:
 
 sqlite:
 	@echo "Running createSQLiteDB.js in sqlite folder..."
-	cd sqlite && node createSQLiteDB.js
+	cd sqlite && node ./database/createSQLiteDB.js
 
 
 all: mysql access_mysql postgresql access_postgresql sqlite

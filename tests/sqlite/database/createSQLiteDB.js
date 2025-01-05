@@ -5,7 +5,7 @@ const setupDatabase = async () => {
 	const db = new sqlite3.Database('sqlite.db');
 
 	try {
-		const sql = await readFile('chinook.sql', 'utf-8');
+		const sql = await readFile('./database/chinook.sql', 'utf-8');
 
 		db.exec(sql, (err) => {
 			if (err) {
