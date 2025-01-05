@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
       - name: Start PostgreSQL
         run: docker-compose -f tests/postgresql/docker-compose.yml up -d
       - name: Wait for PostgreSQL to be ready
