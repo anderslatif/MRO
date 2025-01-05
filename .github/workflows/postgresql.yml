@@ -1,0 +1,20 @@
+name: Run simulated database tests on PostgreSQL
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test_postgresql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Start PostgreSQL
+        run: docker-compose -f tests/postgresql/docker-compose.yml up -d
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          while [ "$(docker inspect -f '{{.State.Health.Status}}' tests_postgresql_1)" != "healthy" ]; do
+            echo "Waiting for PostgreSQL to become healthy..."
+            sleep 2
+          done
+          
