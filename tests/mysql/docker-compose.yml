@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: mysql_db
     ports:
     # Note: 3307 is exposed because 3306 is already in use when testing locally
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./sakila-schema.sql:/docker-entrypoint-initdb.d/sakila-schema.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -17,9 +18,6 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      # MYSQL_DATABASE: classicmodels
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password
       
 volumes:
   mysql_data:
