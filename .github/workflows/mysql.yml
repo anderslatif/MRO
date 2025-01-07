@@ -14,22 +14,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
       - name: Start MySQL
-        run: docker-compose -f tests/mysql/docker-compose.yml up -d
+        run: docker-compose -f ./tests/mysql/docker-compose.yml up -d
       - name: Wait for MySQL to be ready
         run: |
-          service_name=$(docker-compose -f tests/mysql/docker-compose.yml ps -q db)
+          service_name=$(docker-compose -f ./tests/mysql/docker-compose.yml ps -q db)
           while [ "$(docker inspect -f '{{.State.Health.Status}}' $service_name)" != "healthy" ]; do
             echo "Waiting for MySQL to become healthy..."
             sleep 2
           done
 
-      - uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v2
       - name: Install dependencies
         run: npm install
-
+        
       - name: Run tests
-        run: |
-          # Replace with your actual test command
-          echo "Run your database tests here."
+        run: npm run test-mysql
