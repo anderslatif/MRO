@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { envSQLite, envDbPath, envKnexMode, envCommonJS, envES6 } from '../testUtil/setupEnvironment.js';
+import { envSQLite, envDbPath, envKnexMode, envESM } from '../testUtil/setupEnvironment.js';
 
 import { testRunCLI } from '../testUtil/testRunCLI.js';
 
@@ -10,8 +10,7 @@ describe('Hello World Test', () => {
         envSQLite();
         envDbPath();
         envKnexMode();
-        // envES6();
-        envCommonJS();
+        envESM();
 
         testRunCLI();
 

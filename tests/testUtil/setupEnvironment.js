@@ -72,7 +72,7 @@ export function envCommonJS() {
     process.env.MRO_MODULE_SYNTAX = 'CJS';
 }
 
-export function envES6() {
+export function envESM() {
     process.env.MRO_MODULE_SYNTAX = 'ESM';
 }
 

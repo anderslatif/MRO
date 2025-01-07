@@ -28,6 +28,8 @@ exports.down = function(knex) {
     return knex.schema${reverseSchema.map(table => dropTables(table)).join('')};
 };
 `);
+  } else {
+    console.log('Invalid module syntax. Please use either ESM or CJS. You have', moduleSyntax);
   }
 }
 

@@ -9,8 +9,6 @@
   },
   "scripts": {
     "dev": "node src/cli.js",
-    "lint": "eslint src",
-    "lint-fix": "eslint src --fix",
     "test-mysql": "mocha './tests/mysqlTests'",
     "test-postgresql": "mocha './tests/postgresqlTests'",
     "test-sqlite": "mocha './tests/sqliteTests'"

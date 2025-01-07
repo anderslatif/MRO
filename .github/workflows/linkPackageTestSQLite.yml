@@ -46,12 +46,12 @@ jobs:
           MRO_ALL_TABLES: '*'
         run: mro
 
-        # Knex.js Mode (ES6)
-      - name: Run package Knex.js Mode (ES6)
+        # Knex.js Mode (ESM)
+      - name: Run package Knex.js Mode (ESM)
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
-          MRO_MODULE_SYNTAX: ES6
+          MRO_MODULE_SYNTAX: ESM
           MRO_OUTPUT_FORMAT: knex
         run: mro
 

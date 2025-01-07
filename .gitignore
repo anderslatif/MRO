@@ -2,6 +2,7 @@ out/
 models/
 todo.txt
 mro.json
+*_mro_migration.js
 
 MRO_private.md
 
