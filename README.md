@@ -88,7 +88,7 @@ If it finds any of the following key variations it skips the prompt for that val
 | **Database Name**          | `DATABASE`, `DATABASE_NAME`, `DB_DATABASE`, `DB_NAME`, `PG_DATABASE`, `PG_DB`, `POSTGRES_DATABASE`, `POSTGRES_DB`, `POSTGRESQL_DATABASE`, `POSTGRESQL_DB` | Name of the database.                                                   |
 | **Database Path**          | `DATABASE_PATH`, `DB_PATH`                                                                           | Specifies the file path for SQLite databases.                                             |
 | **Output Format**          | `MRO_OUTPUT`, `MRO_OUTPUT_FORMAT`, `OUTPUT_FORMAT`                                                  | `json`, `html`, `knex`, `objection` |
-| **Knex Module Syntax**     | `MRO_MODULE_SYNTAX`, `MODULE_SYNTAX`                                                                | `es6`, `commonjs`                                                                          |
+| **Knex Module Syntax**     | `MRO_MODULE_SYNTAX`, `MODULE_SYNTAX`                                                                | Valid values: `ESM`, `CJS`                                                                          |
 | **MySQL Keys to Keep**     | `ALL_KEYS`, `MRO_ALL_KEYS`                                                      | Used by the test suite. All keys will be included.                                         |
 | **All Selected Tables**    | `ALL_TABLES`, `MRO_ALL_TABLES`                                                                      | Used by the test suite. All tables will be included.                                       |
 

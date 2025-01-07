@@ -69,11 +69,11 @@ export function envObjectionMode() {
 // Output Format
 
 export function envCommonJS() {
-    process.env.MRO_MODULE_SYNTAX = 'CommonJS';
+    process.env.MRO_MODULE_SYNTAX = 'CJS';
 }
 
 export function envES6() {
-    process.env.MRO_MODULE_SYNTAX = 'ES6';
+    process.env.MRO_MODULE_SYNTAX = 'ESM';
 }
 
 // Keys / Tables to keep

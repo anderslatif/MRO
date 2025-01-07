@@ -1,5 +1,5 @@
 export function createMigrationFileString(schema, reverseSchema, moduleSyntax) {
-  if (moduleSyntax === 'ES6') {
+  if (moduleSyntax === 'ESM') {
     return (
       `
 /**
@@ -14,7 +14,7 @@ export function down(knex) {
     return knex.schema${reverseSchema.map(table => dropTables(table)).join('')};
 }
 `);
-  } else if (moduleSyntax === 'CommonJS') {
+  } else if (moduleSyntax === 'CJS') {
     return (
       `/**
  * @param { import("knex").Knex } knex

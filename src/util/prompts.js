@@ -9,6 +9,7 @@ export async function chooseDatabaseType() {
   if (getEnvVariables.getDatabaseType()) {
     return getEnvVariables.getDatabaseType();
   }
+
   return await select({
     message: 'Choose database',
     choices: [
@@ -20,9 +21,8 @@ export async function chooseDatabaseType() {
 }
 
 export async function typeHost() {
-	const host = getEnvVariables.getHost();
-	if (host) {
-		return host;
+	if (getEnvVariables.getHost()) {
+		return getEnvVariables.getHost();
 	}
 
 	const isLocalhost = await confirm({
@@ -131,8 +131,8 @@ export async function chooseModuleSyntax() {
 	return await select({
 		message: 'Choose your desired module syntax for the Knex.js migration files:',
 		choices: [
-			{ name: 'ES6', value: 'es6' },
-			{ name: 'CommonJS', value: 'CommonJS' },
+			{ name: 'ECMAScript Modules', value: 'ESM' },
+			{ name: 'CommonJS', value: 'CJS' },
 		],
 	});
 }
