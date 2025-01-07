@@ -47,7 +47,7 @@ jobs:
         run: mro
 
         # Knex.js Mode (ES6)
-      - name: Run package Knex.js Mode
+      - name: Run package Knex.js Mode (ES6)
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
@@ -56,7 +56,7 @@ jobs:
         run: mro
 
         # Knex.js Mode (CJS)
-      - name: Run package Knex.js Mode
+      - name: Run package Knex.js Mode (CJS)
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
