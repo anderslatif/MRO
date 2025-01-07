@@ -43,14 +43,23 @@ jobs:
           MRO_ALL_TABLES: '*'
         run: mro
 
-        # Knex.js Mode
+        # Knex.js Mode (ES6)
       - name: Run package Knex.js Mode
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_MODULE_SYNTAX: ES6
           MRO_OUTPUT_FORMAT: knex
         run: mro
 
+        # Knex.js Mode (CJS)
+      - name: Run package Knex.js Mode
+        env:
+          DB_TYPE: sqlite
+          DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_MODULE_SYNTAX: CJS
+          MRO_OUTPUT_FORMAT: knex
+        run: mro
 
         # Objection.js Mode
       - name: Run package Objection.js Mode
