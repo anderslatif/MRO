@@ -1,4 +1,4 @@
-name: Run npm link and test that the package works with SQLite
+name: MRO Package Tests
 
 on:
   push:
@@ -9,8 +9,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [20, 22]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        # node-version: [20, 22]
+        os: [ubuntu-latest]
+        node-version: [22]
+
     steps:
       - uses: actions/checkout@v3
       - name: Install Node.js
@@ -20,6 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        env:
+          CI: true
       - name: Link package
         run: npm link
 

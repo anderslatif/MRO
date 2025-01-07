@@ -1,4 +1,4 @@
-name: Run simulated database tests on SQLite
+name: MRO on SQLite
 
 on:
   push:

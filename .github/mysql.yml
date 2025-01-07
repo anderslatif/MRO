@@ -1,4 +1,4 @@
-name: Run simulated database tests on MySQL
+name: MRO on MySQL
 
 on:
   push:
