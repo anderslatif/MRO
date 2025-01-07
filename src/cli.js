@@ -5,7 +5,6 @@ import {
   convertToJSON, convertToHTML, convertToKnexMigration, convertToObjection,
 } from './util/converters.js';
 
-
 let credentials = {};
 
 const databaseType = await prompt.chooseDatabaseType();

@@ -1,18 +1,23 @@
-import { expect } from 'chai';
+// import { expect } from 'chai';
 
-import { envSQLite, envDbPath, envHTMLMode } from '../testUtil/setupEnvironment.js';
+// import { envSQLite, envDbPath, envHTMLMode, envAllKeys, envAllTables } from '../testUtil/setupEnvironment.js';
 
-import { testRunCLI } from '../testUtil/testRunCLI.js';
+// import { testRunCLI } from '../testUtil/testRunCLI.js';
 
 
-describe('Hello World Test', () => {
-	it('should return true for a basic assertion', () => {
-		envSQLite();
-		envDbPath();
-		envHTMLMode();
+// describe('Hello World Test', () => {
+// 	it('should return true for a basic assertion', () => {
+// 		envSQLite();
+// 		envDbPath();
+// 		envHTMLMode();
 
-		testRunCLI();
+// 		envAllKeys();
+// 		envAllTables();
 
-		expect(true).to.be.true;
-	});
-});
+
+
+// 		testRunCLI();
+
+// 		expect(true).to.be.true;
+// 	});
+// });

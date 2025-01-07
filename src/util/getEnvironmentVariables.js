@@ -122,19 +122,19 @@ export function getKnexModuleSyntax() {
 
 	return variations
 		.map((variation) => process.env[variation])
-		.find((value) => value !== undefined) || null;
+		.find((value) => value !== undefined) || undefined;
 }
 
-export function getMysqlKeysToKeep() {
+export function getAllMySQLKeys() {
 	const variations = [
-		'MRO_MYSQL_KEEP_ALL_KEYS',
-		'MYSQL_KEEP_ALL_KEYS',
+		'ALL_KEYS',
+		'MRO_ALL_KEYS',
 	];
 
 	return variations.some((variation) => process.env[variation] !== undefined);
 }
 
-export function getAllSelectedTables() {
+export function getAllTables() {
 	const variations = [
 		'ALL_TABLES',
 		'MRO_ALL_TABLES',

@@ -89,7 +89,7 @@ If it finds any of the following key variations it skips the prompt for that val
 | **Database Path**          | `DATABASE_PATH`, `DB_PATH`                                                                           | Specifies the file path for SQLite databases.                                             |
 | **Output Format**          | `MRO_OUTPUT`, `MRO_OUTPUT_FORMAT`, `OUTPUT_FORMAT`                                                  | `json`, `html`, `knex`, `objection` |
 | **Knex Module Syntax**     | `MRO_MODULE_SYNTAX`, `MODULE_SYNTAX`                                                                | `es6`, `commonjs`                                                                          |
-| **MySQL Keys to Keep**     | `KEYS_TO_KEEP`, `MRO_KEYS_TO_KEEP`                                                      | Used by the test suite. All keys will be included.                                         |
+| **MySQL Keys to Keep**     | `ALL_KEYS`, `MRO_ALL_KEYS`                                                      | Used by the test suite. All keys will be included.                                         |
 | **All Selected Tables**    | `ALL_TABLES`, `MRO_ALL_TABLES`                                                                      | Used by the test suite. All tables will be included.                                       |
 
 ---

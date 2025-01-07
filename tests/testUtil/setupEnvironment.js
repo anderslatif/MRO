@@ -42,7 +42,8 @@ export function envPostgreSQLPort() {
 // DB Path for SQLite
 
 export function envDbPath() {
-    process.env.DB_PATH = '../sqlite/sqlite.db';
+    // Since the tests are run from root
+    process.env.DB_PATH = './tests/sqlite/sqlite.db';
 }
 
 
@@ -68,19 +69,19 @@ export function envObjectionMode() {
 // Output Format
 
 export function envCommonJS() {
-    process.env.MRO_MODULE_SYNTAX = 'commonjs';
+    process.env.MRO_MODULE_SYNTAX = 'CommonJS';
 }
 
 export function envES6() {
-    process.env.MRO_MODULE_SYNTAX = 'es6';
+    process.env.MRO_MODULE_SYNTAX = 'ES6';
 }
 
 // Keys / Tables to keep
 
-export function envKeysToKeep() {
-    process.env.MRO_KEYS_TO_KEEP = '*';
+export function envAllKeys() {
+    process.env.MRO_ALL_KEYS = '*';
 }
 
-export function envTablesToKeep() {
+export function envAllTables() {
     process.env.MRO_ALL_TABLES = '*';
 }

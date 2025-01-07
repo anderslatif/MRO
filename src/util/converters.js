@@ -29,7 +29,7 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
   const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
   const selectedTables = await prompts.selectTables(tables);
 
-  const filteredTables = tables.filter(table => selectedTables.tables.includes(table.table));
+  const filteredTables = tables.filter(table => selectedTables.includes(table.table));
 
   const htmlDocument = getHTMLDocument(filteredTables, credentials.database);
 

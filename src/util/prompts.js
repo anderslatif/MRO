@@ -2,6 +2,7 @@ import { select, confirm, input, checkbox} from '@inquirer/prompts';
 import chalk from 'chalk';
 import fs from 'fs';
 import * as getEnvVariables from './getEnvironmentVariables.js';
+import { get } from 'https';
 
 
 export async function chooseDatabaseType() {
@@ -62,6 +63,7 @@ export async function typeDbPath() {
 	if (getEnvVariables.getDatabasePath()) {
 		return getEnvVariables.getDatabasePath();
 	}
+
 
 	return await input({
 		message: 'Point to your database file.',
@@ -129,21 +131,14 @@ export async function chooseModuleSyntax() {
 	return await select({
 		message: 'Choose your desired module syntax for the Knex.js migration files:',
 		choices: [
-			{ name: 'CommonJS', value: 'commonjs' },
 			{ name: 'ES6', value: 'es6' },
+			{ name: 'CommonJS', value: 'CommonJS' },
 		],
 	});
 }
 
 export async function outputMysqlKeysToKeep() {
-	console.log(getEnvVariables.getMysqlKeysToKeep());
-
-	if (getEnvVariables.getMysqlKeysToKeep()) {
-		const variations = [
-			'KEYS_TO_KEEP',
-			'MRO_KEYS_TO_KEEP',
-		];
-
+	if (getEnvVariables.getAllMySQLKeys()) {
 		// return all tables as checked
 		return [
 			"Field",
@@ -179,12 +174,8 @@ export async function outputMysqlKeysToKeep() {
 }
 
 export async function selectTables(tables) {
-	if (getEnvVariables.getAllSelectedTables()) {
-		return tables.map((table) => ({
-			checked: true,
-			value: table.table,
-			name: table.table,
-		}));
+	if (getEnvVariables.getAllTables()) {
+		return tables.map((table) => table.table);
 	}
 
 	return await checkbox({

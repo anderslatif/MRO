@@ -46,6 +46,7 @@ function getIdMethod(table) {
 }
 
 function getJsonSchema(table) {
+
   return (
     `static get jsonSchema() {
         return {
@@ -53,11 +54,11 @@ function getJsonSchema(table) {
             required: [],
 
             properties: {
-            ${table.columns.map(column => {
+            ${table.columns.map((column) => {
       if (column.Type === 'json') {
         return getJsonTypeForJsonSchema(column);
       } else {
-        return (`    ${column.Field}: { type: '${convertMysqlTypesToJavascript(column.Type.toUpperCase()).toLowerCase()}' },
+        return (`    ${column.Field}: { type: '${convertMysqlTypesToJavascript(column.Type.toUpperCase())?.toLowerCase()}' },
             `);
       }
     }).join('')}
@@ -107,23 +108,29 @@ function getRelationMappings(table) {
     }).join('\n');
   }
 
-  const relationMappings = relationalColumns.map(column => {
-    return column.keyTo.map(keyTo => {
-      const relationToTable = keyTo.split('.')[0];
-      const relationName = toCamelCase(pluralize.singular(relationToTable));
-      const relationType = column.Key === 'MUL' ? 'Model.ManyToManyRelation' : 'Model.BelongsToOneRelation';
-      return (
-        `${relationName}: {
-                    relation: ${relationType},
-                    modelClass: ${toPascalCase(pluralize.singular(relationToTable))},
-                    join: {
-                        from: '${table.table}.${column.Field}',
-                        to: '${keyTo}'
-                    }
-                }`
-      );
-    }).join(',');
-  }).join(',');
+  const relationMappings = relationalColumns
+	.flatMap(column => {
+		if (column.keyTo?.length > 0) {
+			return column.keyTo.map(keyTo => {
+				const relationToTable = keyTo.split('.')[0];
+				const relationName = toCamelCase(pluralize.singular(relationToTable));
+				const relationType = column.Key === 'MUL' ? 'Model.ManyToManyRelation' : 'Model.BelongsToOneRelation';
+				return (
+					`${relationName}: {
+						relation: ${relationType},
+						modelClass: ${toPascalCase(pluralize.singular(relationToTable))},
+						join: {
+							from: '${table.table}.${column.Field}',
+							to: '${keyTo}'
+						}
+					}`
+				);
+			});
+		} else {
+			return [];
+		}
+	})
+	.join(',');
 
   return (
     `static get relationMappings() {
