@@ -2,7 +2,7 @@ import sqlite3 from 'sqlite3';
 import { readFile } from 'fs/promises';
 
 const setupDatabase = async () => {
-	const db = new sqlite3.Database('sqlite.db');
+	const db = new sqlite3.Database('chinook.db');
 
 	try {
 		const sql = await readFile('./database/chinook.sql', 'utf-8');

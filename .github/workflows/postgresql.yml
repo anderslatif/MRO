@@ -22,6 +22,14 @@ jobs:
             echo "Waiting for PostgreSQL to become healthy..."
             sleep 2
           done
+
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: npm install
+
+
       - name: Run tests
         run: |
           # Replace with your actual test command

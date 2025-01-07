@@ -1,0 +1,86 @@
+// Database
+
+export function envMySQL() {
+    process.env.DB_TYPE = 'mysql';
+}
+
+export function envPostgreSQL() {
+    process.env.DB_TYPE = 'postgresql';
+}
+
+export function envSQLite() {
+    process.env.DB_TYPE = 'sqlite';
+}
+
+// Database Name, User and Password
+
+export function envMySQLCredentials() {
+    process.env.DATABASE_USER = 'root';
+    process.env.DATABASE_PASSWORD = 'root_password';
+    process.env.DATABASE_NAME = 'sakila';
+}
+
+export function envPostgreSQLCredentials() {
+    process.env.DATABASE_USER = 'postgres';
+    process.env.DATABASE_PASSWORD = 'password';
+    process.env.DATABASE_NAME = 'pagila';
+}
+
+// Database Port
+
+export function envMySQLPort() {
+    // my docker-compose.yml exposes the database on port 3307
+    // this is to allow testing locally where local MySQL might be using port 3306
+    process.env.DB_PORT = '3307';
+}
+
+export function envPostgreSQLPort() {
+    process.env.DB_PORT = '5432';
+}
+
+
+// DB Path for SQLite
+
+export function envDbPath() {
+    process.env.DB_PATH = '../sqlite/sqlite.db';
+}
+
+
+// Output Modes
+
+export function envJSONMode() {
+    process.env.MRO_OUTPUT_FORMAT = 'json';
+}
+
+export function envHTMLMode() {
+    process.env.MRO_OUTPUT_FORMAT = 'html';
+}
+
+export function envKnexMode() {
+    process.env.MRO_OUTPUT_FORMAT = 'knex';
+}
+
+export function envObjectionMode() {
+    process.env.MRO_OUTPUT_FORMAT = 'objection';
+}
+
+
+// Output Format
+
+export function envCommonJS() {
+    process.env.MRO_MODULE_SYNTAX = 'commonjs';
+}
+
+export function envES6() {
+    process.env.MRO_MODULE_SYNTAX = 'es6';
+}
+
+// Keys / Tables to keep
+
+export function envKeysToKeep() {
+    process.env.MRO_KEYS_TO_KEEP = '*';
+}
+
+export function envTablesToKeep() {
+    process.env.MRO_ALL_TABLES = '*';
+}

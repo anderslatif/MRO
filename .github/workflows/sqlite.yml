@@ -1,0 +1,20 @@
+name: Run simulated database tests on SQLite
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test_sqlite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: npm install --include=dev
+
+      - name: Run SQLite Tests
+        run: npx mocha 'tests/sqlite/**/*.test.js'
+
+

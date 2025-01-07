@@ -1,0 +1,63 @@
+name: Run npm link and test that the package works with SQLite
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  update_package:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+      - name: Link package
+        run: npm link
+
+        # HTML Mode
+      - name: Run package HTML Mode
+        env:
+          DB_TYPE: sqlite
+          DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_OUTPUT_FORMAT: html
+        run: mro
+
+        # JSON Mode
+      - name: Run package JSON Mode
+        env:
+          DB_TYPE: sqlite
+          DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_OUTPUT_FORMAT: json
+          MRO_KEYS_TO_KEEP: '*'
+          MRO_ALL_TABLES: '*'
+        run: mro
+
+        # Knex.js Mode
+      - name: Run package Knex.js Mode
+        env:
+          DB_TYPE: sqlite
+          DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_OUTPUT_FORMAT: json
+          MRO_KEYS_TO_KEEP: '*'
+          MRO_ALL_TABLES: '*'
+        run: mro
+
+
+        # Objection.js Mode
+      - name: Run package Objection.js Mode
+        env:
+          DB_TYPE: sqlite
+          DB_PATH: ./tests/sqlite/sqlite.db
+          MRO_OUTPUT_FORMAT: json
+          MRO_KEYS_TO_KEEP: '*'
+          MRO_ALL_TABLES: '*'
+        run: mro

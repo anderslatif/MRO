@@ -1,5 +1,12 @@
 # MRO
 
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Install Size][npm-install-size-image]][npm-install-size-url]
+[![Test CI - MySQL](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml)
+[![Test CI - PostgreSQL](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml)
+[![Test CI - SQLite](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/test.yml)
+
+
 **M**odel **R**elations to **O**bjects
 
 > ORM but in reverse
@@ -101,3 +108,8 @@ If it finds any of the following key variations it skips the prompt for that val
 - PostgreSQL
 - SQLite
 
+
+[npm-version-image]: https://img.shields.io/npm/v/mro.svg
+[npm-url]: https://www.npmjs.com/package/mro
+[npm-install-size-image]: https://packagephobia.com/badge?p=mro
+[npm-install-size-url]: https://packagephobia.com/result?p=mro

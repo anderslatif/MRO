@@ -136,23 +136,25 @@ export async function chooseModuleSyntax() {
 }
 
 export async function outputMysqlKeysToKeep() {
+	console.log(getEnvVariables.getMysqlKeysToKeep());
+
 	if (getEnvVariables.getMysqlKeysToKeep()) {
 		const variations = [
 			'KEYS_TO_KEEP',
 			'MRO_KEYS_TO_KEEP',
 		];
 
-		const keys = variations
-			.map((variation) => process.env[variation])
-			.find((value) => value !== undefined)
-			.split(',')
-			.map((key) => key.trim());
-
-		return keys.map((key) => ({
-			checked: true,
-			value: key,
-			name: chalk.grey.inverse.bold(` ${key.toLowerCase()} `) + `: description of ${key}`,
-		}));
+		// return all tables as checked
+		return [
+			"Field",
+			"Type",
+			"Default",
+			"Null",
+			"Key",
+			"keyTo",
+			"Extra",
+			"typeJS"
+		]
 	}
 
 	return await checkbox({
