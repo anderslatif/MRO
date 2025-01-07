@@ -29,6 +29,8 @@ jobs:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
           MRO_OUTPUT_FORMAT: html
+          MRO_ALL_KEYS: '*'
+          MRO_ALL_TABLES: '*'
         run: mro
 
         # JSON Mode
@@ -37,7 +39,7 @@ jobs:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
           MRO_OUTPUT_FORMAT: json
-          MRO_KEYS_TO_KEEP: '*'
+          MRO_ALL_KEYS: '*'
           MRO_ALL_TABLES: '*'
         run: mro
 
@@ -46,9 +48,7 @@ jobs:
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
-          MRO_OUTPUT_FORMAT: json
-          MRO_KEYS_TO_KEEP: '*'
-          MRO_ALL_TABLES: '*'
+          MRO_OUTPUT_FORMAT: knex
         run: mro
 
 
@@ -57,7 +57,5 @@ jobs:
         env:
           DB_TYPE: sqlite
           DB_PATH: ./tests/sqlite/sqlite.db
-          MRO_OUTPUT_FORMAT: json
-          MRO_KEYS_TO_KEEP: '*'
-          MRO_ALL_TABLES: '*'
+          MRO_OUTPUT_FORMAT: objection
         run: mro
