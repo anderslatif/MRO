@@ -1,10 +1,11 @@
 # MRO
 
 [![NPM Version][npm-version-image]][npm-url]
-[![NPM Install Size][npm-install-size-image]][npm-install-size-url]
-[![Test CI - MySQL](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml)
-[![Test CI - PostgreSQL](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml)
-[![Test CI - SQLite](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/badge.svg)](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/test.yml)
+
+[![Package Test](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg?label=Package%20Test)](https://github.com/anderslatif/MRO/actions/workflows/linkPackageTestSQLite.yml)
+[![MySQL Test](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg?label=MySQL%20Test)](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml)
+[![PostgreSQL Test](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml/badge.svg?label=PostgreSQL%20Test)](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml)
+[![SQLite Test](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/badge.svg?label=SQLite%20Test)](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml)
 
 
 **M**odel **R**elations to **O**bjects
@@ -111,5 +112,4 @@ If it finds any of the following key variations it skips the prompt for that val
 
 [npm-version-image]: https://img.shields.io/npm/v/mro.svg
 [npm-url]: https://www.npmjs.com/package/mro
-[npm-install-size-image]: https://packagephobia.com/badge?p=mro
 [npm-install-size-url]: https://packagephobia.com/result?p=mro
