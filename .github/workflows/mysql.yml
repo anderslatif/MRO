@@ -23,6 +23,14 @@ jobs:
             sleep 2
           done
 
+      # debugging
+      - name: Check MySQL Logs
+        run: docker logs $(docker-compose -f ./tests/mysql/docker-compose.yml ps -q db)
+      - name: Verify MySQL Container Status
+        run: docker-compose -f ./tests/mysql/docker-compose.yml ps
+      - name: Print PWD
+        run: pwd
+
       - name: Install Node.js
         uses: actions/setup-node@v2
       - name: Install dependencies
@@ -30,3 +38,8 @@ jobs:
         
       - name: Run tests
         run: npm run test-mysql
+
+      # debugging ls
+      - name: List files
+        run: ls -al
+      
