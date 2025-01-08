@@ -7,7 +7,7 @@ import { testRunCLI } from '../testUtil/testRunCLI.js';
 import fs from 'fs';
 
 
-describe('Test Objection Models creation for MySQL', () => {
+describe('Test Objection Models creation for SQLite', () => {
 	before('Run the CLI', () => {
         envSQLite();
         envDbPath();

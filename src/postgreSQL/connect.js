@@ -12,6 +12,10 @@ export async function connectPostgresql(credentials) {
 		});
 
 		await client.connect();
+
+		// Test the connection with a simple query for early error failure detection
+		await client.query('SELECT NOW()');
+
 		return client;
 	} catch (error) {
 		console.log(chalk.bgRed('Error connecting to PostgreSQL database.'));

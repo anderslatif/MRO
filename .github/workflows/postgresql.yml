@@ -31,6 +31,4 @@ jobs:
 
 
       - name: Run tests
-        run: |
-          # Replace with your actual test command
-          echo "Run your database tests here."
+        run: npm run test-postgresql

@@ -8,15 +8,12 @@ import fs from 'fs';
 
 let findMatchingFile;
 
-describe('Test JSON Docs creation for MySQL', () => {
+describe('Test Knex migration creation for SQLite', () => {
 	before('Run the CLI', async () => {
         envSQLite();
         envDbPath();
         envKnexMode();
         envCommonJS();
-
-		envAllKeys();
-		envAllTables();
 
 		testRunCLI();
 

@@ -31,6 +31,7 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 const outputFormat = await prompt.outputFormat();
 
 if (outputFormat === 'json') {
+    console.log(credentials)
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
     convertToJSON(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'html') {

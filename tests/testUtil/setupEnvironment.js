@@ -1,5 +1,3 @@
-// Database
-
 export function resetEnvironment() {
     delete process.env.DB_TYPE;
     delete process.env.DATABASE_USER;

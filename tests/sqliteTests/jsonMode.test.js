@@ -6,7 +6,7 @@
 // import fs from 'fs';
 
 
-// describe('Test JSON Docs creation for MySQL', () => {
+// describe('Test JSON Docs creation for SQLite', () => {
 // 	before('Run the CLI', () => {
 //         envSQLite();
 //         envDbPath();
