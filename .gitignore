@@ -1,8 +1,11 @@
+# For local testing
 out/
 models/
 todo.txt
 mro.json
 *_mro_migration.js
+*_mro_docs.html
+sakila.json
 
 MRO_private.md
 

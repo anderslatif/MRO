@@ -29,7 +29,7 @@ exports.down = function(knex) {
 };
 `);
   } else {
-    console.log('Invalid module syntax. Please use either ESM or CJS. You have', moduleSyntax);
+    console.error('Invalid module syntax. Please use either ESM or CJS. You have', moduleSyntax);
   }
 }
 
@@ -90,9 +90,9 @@ export function lookupKnexTypeFromSchema(column) {
     columnType = `binary(${columnName})`;
   } else if (column.Type.startsWith('enum')) {
     const enumValues = column.Type.match(/\((.*)\)/)[1];
-    columnType = `specificType(${columnName}, 'ENUM(${enumValues})')`;
+    columnType = `specificType(${columnName}, "ENUM(${enumValues})")`;
   } else {
-    columnType = `specificType(${columnName}, '${column.Type}')`;
+    columnType = `specificType(${columnName}, "${column.Type}")`;
   }
 
   return `${columnType}${additionalInfo}`;

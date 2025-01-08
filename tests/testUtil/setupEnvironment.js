@@ -1,5 +1,18 @@
 // Database
 
+export function resetEnvironment() {
+    delete process.env.DB_TYPE;
+    delete process.env.DATABASE_USER;
+    delete process.env.DATABASE_PASSWORD;
+    delete process.env.DATABASE_NAME;
+    delete process.env.DB_PORT;
+    delete process.env.DB_PATH;
+    delete process.env.MRO_OUTPUT_FORMAT;
+    delete process.env.MRO_MODULE_SYNTAX;
+    delete process.env.MRO_ALL_KEYS;
+    delete process.env.MRO_ALL_TABLES;
+}
+
 export function envMySQL() {
     process.env.DB_TYPE = 'mysql';
 }
