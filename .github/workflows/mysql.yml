@@ -24,12 +24,11 @@ jobs:
           done
 
       # debugging
-      - name: Check MySQL Logs
-        run: docker logs $(docker-compose -f ./tests/mysql/docker-compose.yml ps -q db)
       - name: Verify MySQL Container Status
         run: docker-compose -f ./tests/mysql/docker-compose.yml ps
-      - name: Print PWD
-        run: pwd
+      - name: Test MySQL Connectivity
+        run: |
+          mysql --host=127.0.0.1 --port=3307 --user=root --password=root_password -e "SHOW DATABASES;"
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -38,8 +37,3 @@ jobs:
         
       - name: Run tests
         run: npm run test-mysql
-
-      # debugging ls
-      - name: List files
-        run: ls -al
-      
