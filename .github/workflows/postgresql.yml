@@ -17,8 +17,7 @@ jobs:
         run: docker-compose -f tests/postgresql/docker-compose.yml up -d
       - name: Wait for PostgreSQL to be ready
         run: |
-          service_name=$(docker-compose -f tests/postgresql/docker-compose.yml ps -q db)
-          while [ "$(docker inspect -f '{{.State.Health.Status}}' $service_name)" != "healthy" ]; do
+          while ! docker inspect -f '{{.State.Health.Status}}' postgres_db | grep -q healthy; do
             echo "Waiting for PostgreSQL to become healthy..."
             sleep 2
           done

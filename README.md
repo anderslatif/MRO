@@ -74,7 +74,7 @@ Just run it where you want the file(s) to be output to.
 
 ## Possible Environment Variables
 
-MRO tries to read from either a `.env` file if it exists where it is run or the environment. 
+MRO tries to read from either a `.env` file if it exists where it is run or the environment.
 
 If it finds any of the following key variations it skips the prompt for that value.
 
@@ -92,6 +92,9 @@ If it finds any of the following key variations it skips the prompt for that val
 | **Knex Module Syntax**     | `MRO_MODULE_SYNTAX`, `MODULE_SYNTAX`                                                                | Valid values: `ESM`, `CJS`                                                                          |
 | **MySQL Keys to Keep**     | `ALL_KEYS`, `MRO_ALL_KEYS`                                                      | Used by the test suite. All keys will be included.                                         |
 | **All Selected Tables**    | `ALL_TABLES`, `MRO_ALL_TABLES`                                                                      | Used by the test suite. All tables will be included.                                       |
+
+
+MRO will **never** make changes to your database. Credentials are safe with MRO. 
 
 ---
 

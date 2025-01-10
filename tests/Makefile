@@ -1,4 +1,4 @@
-.PHONY: mysql postgresql sqlite all
+.PHONY: mysql access_mysql postgresql access_postgresql sqlite all
 
 mysql:
 	@echo "Starting Docker Compose in mysql folder..."

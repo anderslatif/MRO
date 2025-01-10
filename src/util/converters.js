@@ -20,6 +20,8 @@ export async function convertToJSON(credentials, mysqlKeysToKeep) {
 
   prettyPrintSchema(tables);
   fs.writeFileSync(credentials.database + '.json', stringifiedSchema);
+
+  process.exit(0);
 }
 
 export async function convertToHTML(credentials, mysqlKeysToKeep) {
@@ -35,6 +37,8 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
 
   prettyPrintSchema(filteredTables);
   fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);
+
+  process.exit(0);
 }
 
 export async function convertToKnexMigration(credentials) {
@@ -61,6 +65,8 @@ export async function convertToKnexMigration(credentials) {
   }
 
   fs.writeFileSync(getKnexTimestampString() + '_mro_migration.js', fileString);
+
+  process.exit(0);
 }
 
 export async function convertToObjection(credentials) {
@@ -78,4 +84,6 @@ export async function convertToObjection(credentials) {
     }
     fs.writeFileSync(filePath, fileString);
   });
+
+  process.exit(0);
 }
