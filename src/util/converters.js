@@ -36,7 +36,11 @@ export async function convertToHTML(credentials, mysqlKeysToKeep) {
   const htmlDocument = getHTMLDocument(filteredTables, credentials.database);
 
   prettyPrintSchema(filteredTables);
-  fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);
+
+  const outputFilePath = path.resolve(process.cwd(), `${credentials.database}_mro_docs.html`);
+  fs.writeFileSync(outputFilePath, htmlDocument);
+  console.log(`File saved at: ${outputFilePath}`);
+  
 
   process.exit(0);
 }
