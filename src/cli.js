@@ -26,21 +26,21 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 
     credentials = { databaseType, dbPath, database: 'sqlite' };
 }
+process.exit(0);
 
+// const outputFormat = await prompt.outputFormat();
 
-const outputFormat = await prompt.outputFormat();
-
-if (outputFormat === 'json') {
-    console.log(credentials)
-    const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
-    convertToJSON(credentials, mysqlKeysToKeep);
-} else if (outputFormat === 'html') {
-    const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
-    convertToHTML(credentials, mysqlKeysToKeep);
-} else if (outputFormat === 'knex') {
-    const moduleSyntax = await prompt.chooseModuleSyntax();
-    credentials.moduleSyntax = moduleSyntax;
-    convertToKnexMigration(credentials);
-} else if (outputFormat === 'objection') {
-    convertToObjection(credentials);
-}
+// if (outputFormat === 'json') {
+//     console.log(credentials)
+//     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
+//     convertToJSON(credentials, mysqlKeysToKeep);
+// } else if (outputFormat === 'html') {
+//     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
+//     convertToHTML(credentials, mysqlKeysToKeep);
+// } else if (outputFormat === 'knex') {
+//     const moduleSyntax = await prompt.chooseModuleSyntax();
+//     credentials.moduleSyntax = moduleSyntax;
+//     convertToKnexMigration(credentials);
+// } else if (outputFormat === 'objection') {
+//     convertToObjection(credentials);
+// }

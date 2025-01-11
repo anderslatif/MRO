@@ -5,7 +5,8 @@
 [![Package Test](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg?label=Package%20Test)](https://github.com/anderslatif/MRO/actions/workflows/linkPackageTestSQLite.yml)
 <!-- [![MySQL Test](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml/badge.svg?label=MySQL%20Test)](https://github.com/anderslatif/MRO/actions/workflows/mysql.yml)
 [![PostgreSQL Test](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml/badge.svg?label=PostgreSQL%20Test)](https://github.com/anderslatif/MRO/actions/workflows/postgresql.yml) -->
-[![SQLite Test](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml/badge.svg?label=SQLite%20Test)](https://github.com/anderslatif/MRO/actions/workflows/sqlite.yml)
+[![SQLite Test](https://github.com/anderslatif/MRO_private/actions/workflows/sqlite.yml/badge.svg?label=SQLite%20Test)](https://github.com/anderslatif/MRO_private/actions/workflows/sqlite.yml)
+
 
 
 **M**odel **R**elations to **O**bjects
