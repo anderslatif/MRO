@@ -19,11 +19,11 @@ describe('Test HTML Docs creation for PostgreSQL', () => {
 		testRunCLI();
 	});
 
-	// it('should create the HTML file', () => {
-	// 	const fileExists = fs.existsSync('pagila_mro_docs.html');
+	it('should create the HTML file', () => {
+		const fileExists = fs.existsSync('pagila_mro_docs.html');
 
-	// 	expect(fileExists).to.be.true;
-	// });
+		expect(fileExists).to.be.true;
+	});
 
 	// it('should have the correct number of tables', () => {
 	// 	const fileContent = fs.readFileSync('pagila_mro_docs.html', 'utf8');

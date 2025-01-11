@@ -2,14 +2,13 @@ import { execSync } from 'child_process';
 import { resolve } from 'path';
 
 export function testRunCLI() {
-	console.log("=====================", process.cwd());
 	const cliPath = resolve('src', 'cli.js');
 	try {
 		const output = execSync(`node ${cliPath}`, {
 			env: {
 				...process.env,
 			},
-			// cwd: process.cwd(),
+			cwd: process.cwd(),
 			stdio: 'pipe', // Capture both stdout and stderr
 		});
 		console.log(output.toString()); // Log the CLI output
