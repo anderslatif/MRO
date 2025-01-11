@@ -27,11 +27,7 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
     credentials = { databaseType, dbPath, database: 'sqlite' };
 }
 
-console.log("************MRO_OUTPUT_FORMAT************", process.env.MRO_OUTPUT_FORMAT);
-
 const outputFormat = await prompt.outputFormat();
-
-console.log("************OUTPUT FORMAT************", outputFormat);
 
 if (outputFormat === 'json') {
     console.log(credentials)
@@ -39,7 +35,6 @@ if (outputFormat === 'json') {
     convertToJSON(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'html') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
-    console.log("************HTML************", mysqlKeysToKeep);
     convertToHTML(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'knex') {
     const moduleSyntax = await prompt.chooseModuleSyntax();

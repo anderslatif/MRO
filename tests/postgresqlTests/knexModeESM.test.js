@@ -1,42 +1,42 @@
-// import { expect } from 'chai';
+import { expect } from 'chai';
 
-// import { envPostgreSQLCredentials, envPostgreSQL, envPostgreSQLPort, envKnexMode, envESM } from '../testUtil/setupEnvironment.js';
+import { envPostgreSQLCredentials, envPostgreSQL, envPostgreSQLPort, envKnexMode, envESM } from '../testUtil/setupEnvironment.js';
 
-// import { testRunCLI } from '../testUtil/testRunCLI.js';
+import { testRunCLI } from '../testUtil/testRunCLI.js';
 
-// import fs from 'fs';
+import fs from 'fs';
 
-// let findMatchingFile;
+let findMatchingFile;
 
-// describe('Test Knex migration creation for PostgreSQL', () => {
-// 	before('Run the CLI', async () => {
-//         envPostgreSQLCredentials();
-// 		envPostgreSQL();
-//         envPostgreSQLPort();
-// 		envKnexMode();
-//         envESM();
+describe('Test Knex migration creation for PostgreSQL', () => {
+	before('Run the CLI', async () => {
+        envPostgreSQLCredentials();
+		envPostgreSQL();
+        envPostgreSQLPort();
+		envKnexMode();
+        envESM();
 
-// 		testRunCLI();
+		testRunCLI();
 
-//         // lazy loading
-//         findMatchingFile = (await import('../testUtil/findMigrationFile.js')).findMatchingFile;
-// 	});
+        // lazy loading
+        findMatchingFile = (await import('../testUtil/findMigrationFile.js')).findMatchingFile;
+	});
 
-// 	it('should create the migration file', () => {
-//         const migrationFile = findMatchingFile();
+	it('should create the migration file', () => {
+        const migrationFile = findMatchingFile();
 
-//         expect(migrationFile).to.not.be.null
-// 	});
+        expect(migrationFile).to.not.be.null
+	});
 
-//     it('should contain logic for creating all tables', () => {
-//         const migrationFileName = findMatchingFile();
-//         const migrationFile = fs.readFileSync(migrationFileName, 'utf8');   
+    it('should contain logic for creating all tables', () => {
+        const migrationFileName = findMatchingFile();
+        const migrationFile = fs.readFileSync(migrationFileName, 'utf8');   
 
-//         const createTableCount = migrationFile.match(/createTable/g).length;
+        const createTableCount = migrationFile.match(/createTable/g).length;
 
-//         const pagilaTableCount = 29;
+        const pagilaTableCount = 29;
 
-//         expect(createTableCount).to.equal(pagilaTableCount);
-// 	});
+        expect(createTableCount).to.equal(pagilaTableCount);
+	});
 
-// });
+});
