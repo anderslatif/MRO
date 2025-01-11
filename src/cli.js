@@ -36,6 +36,7 @@ if (outputFormat === 'json') {
     convertToJSON(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'html') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
+    console.log("************HTML************", mysqlKeysToKeep);
     convertToHTML(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'knex') {
     const moduleSyntax = await prompt.chooseModuleSyntax();
