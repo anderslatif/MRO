@@ -33,4 +33,4 @@ jobs:
         run: npm run test-postgresql
 
       - name: Debug File Creation
-        run: find / -name "pagila_mro_docs.html" 2>/dev/null
+        run: find $GITHUB_WORKSPACE -name "pagila_mro_docs.html"
