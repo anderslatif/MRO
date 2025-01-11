@@ -25,13 +25,13 @@ describe('Test HTML Docs creation for PostgreSQL', () => {
 		expect(fileExists).to.be.true;
 	});
 
-	// it('should have the correct number of tables', () => {
-	// 	const fileContent = fs.readFileSync('pagila_mro_docs.html', 'utf8');
+	it('should have the correct number of tables', () => {
+		const fileContent = fs.readFileSync('pagila_mro_docs.html', 'utf8');
 
-	// 	const tableCount = (fileContent.match(/<h2 class="database-table-name">/g) || []).length;
+		const tableCount = (fileContent.match(/<h2 class="database-table-name">/g) || []).length;
 
-	// 	const pagilaTableCount = 29;
+		const pagilaTableCount = 29;
 
-	// 	expect(tableCount).to.equal(pagilaTableCount);
-	// });
+		expect(tableCount).to.equal(pagilaTableCount);
+	});
 });
