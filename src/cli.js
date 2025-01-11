@@ -9,8 +9,6 @@ let credentials = {};
 
 const databaseType = await prompt.chooseDatabaseType();
 
-console.log("************databaseType************", databaseType);
-
 if (['mysql', 'postgresql'].includes(databaseType)) {
 
     const host = await prompt.typeHost();
@@ -31,6 +29,8 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 
 
 const outputFormat = await prompt.outputFormat();
+
+console.log("************OUTPUT FORMAT************", outputFormat);
 
 if (outputFormat === 'json') {
     console.log(credentials)
