@@ -30,8 +30,6 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 
 const outputFormat = await prompt.outputFormat();
 
-console.log("****************", outputFormat);
-
 if (outputFormat === 'json') {
     console.log(credentials)
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();

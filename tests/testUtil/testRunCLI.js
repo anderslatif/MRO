@@ -8,6 +8,7 @@ export function testRunCLI() {
 			env: {
 				...process.env,
 			},
+			cwd: process.cwd(),
 			stdio: 'pipe', // Capture both stdout and stderr
 		});
 		console.log(output.toString()); // Log the CLI output

@@ -31,3 +31,6 @@ jobs:
 
       - name: Run tests
         run: npm run test-postgresql
+
+      - name: Debug File Creation
+        run: find . -name "pagila_mro_docs.html"
