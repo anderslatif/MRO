@@ -3,9 +3,16 @@ import { resolve } from 'path';
 
 export function testRunCLI() {
 	const cliPath = resolve('src', 'cli.js');
-	execSync(`node ${cliPath}`, {
-		env: {
-		...process.env,
-		}
-	});
+	try {
+		const output = execSync(`node ${cliPath}`, {
+			env: {
+				...process.env,
+			},
+			stdio: 'pipe', // Capture both stdout and stderr
+		});
+		console.log(output.toString()); // Log the CLI output
+	} catch (error) {
+		console.error(error.stderr?.toString() || error.message); // Log any errors
+		throw error;
+	}
 }

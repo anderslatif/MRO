@@ -11,23 +11,24 @@ const databaseType = await prompt.chooseDatabaseType();
 
 console.log("*************************", databaseType);
 
-// if (['mysql', 'postgresql'].includes(databaseType)) {
+if (['mysql', 'postgresql'].includes(databaseType)) {
 
-//     const host = await prompt.typeHost();
-//     const port = await prompt.typePort(databaseType);
-//     const database = await prompt.typeDatabaseName();
-//     const user = await prompt.typeUser();
-//     const password = await prompt.typePassword();
+    const host = await prompt.typeHost();
+    const port = await prompt.typePort(databaseType);
+    const database = await prompt.typeDatabaseName();
+    const user = await prompt.typeUser();
+    const password = await prompt.typePassword();
 
-//     credentials = {
-//         databaseType, host, database, port, user, password,
-//     };
+    credentials = {
+        databaseType, host, database, port, user, password,
+    };
 
-// } else if (databaseType === 'sqlite') {
-//     const dbPath = await prompt.typeDbPath();
+} else if (databaseType === 'sqlite') {
+    const dbPath = await prompt.typeDbPath();
 
-//     credentials = { databaseType, dbPath, database: 'sqlite' };
-// }
+    credentials = { databaseType, dbPath, database: 'sqlite' };
+}
+
 process.exit(0);
 
 // const outputFormat = await prompt.outputFormat();
