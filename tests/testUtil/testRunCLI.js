@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import { resolve } from 'path';
 
 export function testRunCLI() {
+	console.log("=====================", process.cwd());
 	const cliPath = resolve('src', 'cli.js');
 	try {
 		const output = execSync(`node ${cliPath}`, {
