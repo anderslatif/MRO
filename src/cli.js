@@ -9,6 +9,8 @@ let credentials = {};
 
 const databaseType = await prompt.chooseDatabaseType();
 
+console.log("************databaseType************", databaseType);
+
 if (['mysql', 'postgresql'].includes(databaseType)) {
 
     const host = await prompt.typeHost();
