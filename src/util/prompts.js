@@ -2,7 +2,6 @@ import { select, confirm, input, checkbox} from '@inquirer/prompts';
 import chalk from 'chalk';
 import fs from 'fs';
 import * as getEnvVariables from './getEnvironmentVariables.js';
-import { get } from 'https';
 
 
 export async function chooseDatabaseType() {

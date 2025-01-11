@@ -27,6 +27,7 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
     credentials = { databaseType, dbPath, database: 'sqlite' };
 }
 
+console.log("************MRO_OUTPUT_FORMAT************", process.env.MRO_OUTPUT_FORMAT);
 
 const outputFormat = await prompt.outputFormat();
 

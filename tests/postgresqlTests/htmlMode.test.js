@@ -10,7 +10,7 @@ describe('Test HTML Docs creation for PostgreSQL', () => {
 	before('Run the CLI', () => {
         envPostgreSQLCredentials();
 		envPostgreSQL();
-     envPostgreSQLPort();
+     	envPostgreSQLPort();
 		envHTMLMode();
 
 		envAllKeys();
