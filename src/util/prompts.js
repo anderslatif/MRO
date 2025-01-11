@@ -6,18 +6,21 @@ import { get } from 'https';
 
 
 export async function chooseDatabaseType() {
-  if (getEnvVariables.getDatabaseType()) {
-    return getEnvVariables.getDatabaseType();
-  }
 
-  return await select({
-    message: 'Choose database',
-    choices: [
-      { name: 'MySQL', value: 'mysql' },
-      { name: 'PostgreSQL', value: 'postgresql' },
-      { name: 'SQLite', value: 'sqlite' },
-    ],
-  });
+	console.log("@@@@@@@@@@@@@@@@@@@@@@", getEnvVariables.getDatabaseType());
+
+	if (getEnvVariables.getDatabaseType()) {
+		return getEnvVariables.getDatabaseType();
+	}
+
+	return await select({
+		message: 'Choose database',
+		choices: [
+		{ name: 'MySQL', value: 'mysql' },
+		{ name: 'PostgreSQL', value: 'postgresql' },
+		{ name: 'SQLite', value: 'sqlite' },
+		],
+	});
 }
 
 export async function typeHost() {

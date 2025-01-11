@@ -9,23 +9,25 @@ let credentials = {};
 
 const databaseType = await prompt.chooseDatabaseType();
 
-if (['mysql', 'postgresql'].includes(databaseType)) {
+console.log("*************************", databaseType);
 
-    const host = await prompt.typeHost();
-    const port = await prompt.typePort(databaseType);
-    const database = await prompt.typeDatabaseName();
-    const user = await prompt.typeUser();
-    const password = await prompt.typePassword();
+// if (['mysql', 'postgresql'].includes(databaseType)) {
 
-    credentials = {
-        databaseType, host, database, port, user, password,
-    };
+//     const host = await prompt.typeHost();
+//     const port = await prompt.typePort(databaseType);
+//     const database = await prompt.typeDatabaseName();
+//     const user = await prompt.typeUser();
+//     const password = await prompt.typePassword();
 
-} else if (databaseType === 'sqlite') {
-    const dbPath = await prompt.typeDbPath();
+//     credentials = {
+//         databaseType, host, database, port, user, password,
+//     };
 
-    credentials = { databaseType, dbPath, database: 'sqlite' };
-}
+// } else if (databaseType === 'sqlite') {
+//     const dbPath = await prompt.typeDbPath();
+
+//     credentials = { databaseType, dbPath, database: 'sqlite' };
+// }
 process.exit(0);
 
 // const outputFormat = await prompt.outputFormat();
