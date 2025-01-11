@@ -9,11 +9,12 @@ export function testRunCLI() {
 				...process.env,
 			},
 			cwd: process.cwd(),
-			stdio: 'pipe', // Capture both stdout and stderr
+			stdio: 'inherit', // Capture both stdout and stderr
 		});
 		console.log(output.toString()); // Log the CLI output
 	} catch (error) {
-		console.error(error.stderr?.toString() || error.message); // Log any errors
+        console.error('CLI Error Output:', error.stderr?.toString());
+        console.error('CLI Error Message:', error.message);
 		throw error;
 	}
 }
