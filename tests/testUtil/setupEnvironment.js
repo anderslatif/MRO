@@ -26,12 +26,14 @@ export function envSQLite() {
 // Database Name, User and Password
 
 export function envMySQLCredentials() {
+    process.env.DATABASE_HOST = '127.0.0.1';
     process.env.DATABASE_USER = 'root';
     process.env.DATABASE_PASSWORD = 'root_password';
     process.env.DATABASE_NAME = 'sakila';
 }
 
 export function envPostgreSQLCredentials() {
+    process.env.DATABASE_HOST = '127.0.0.1';
     process.env.DATABASE_USER = 'postgres';
     process.env.DATABASE_PASSWORD = 'password';
     process.env.DATABASE_NAME = 'pagila';

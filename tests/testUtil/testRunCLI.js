@@ -11,7 +11,6 @@ export function testRunCLI() {
 			cwd: process.cwd(),
 			stdio: 'inherit', // Capture both stdout and stderr
 		});
-		console.log(output.toString()); // Log the CLI output
 	} catch (error) {
         console.error('CLI Error Output:', error.stderr?.toString());
         console.error('CLI Error Message:', error.message);
