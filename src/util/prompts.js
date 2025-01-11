@@ -6,9 +6,6 @@ import { get } from 'https';
 
 
 export async function chooseDatabaseType() {
-
-	console.log("@@@@@@@@@@@@@@@@@@@@@@", getEnvVariables.getDatabaseType());
-
 	if (getEnvVariables.getDatabaseType()) {
 		return getEnvVariables.getDatabaseType();
 	}
