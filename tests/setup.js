@@ -1,4 +1,4 @@
-import { beforeEach, after } from 'mocha';
+import { beforeEach } from 'mocha';
 import { resetEnvironment } from './testUtil/setupEnvironment.js';
 
 export function globalSetup() {
