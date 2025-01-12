@@ -30,7 +30,6 @@ if (['mysql', 'postgresql'].includes(databaseType)) {
 const outputFormat = await prompt.outputFormat();
 
 if (outputFormat === 'json') {
-    console.log(credentials)
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
     convertToJSON(credentials, mysqlKeysToKeep);
 } else if (outputFormat === 'html') {
@@ -42,4 +41,16 @@ if (outputFormat === 'json') {
     convertToKnexMigration(credentials);
 } else if (outputFormat === 'objection') {
     convertToObjection(credentials);
+} else {
+    console.error("Invalid output format. Environment Key: OUTPUT_FORMAT");
 }
+
+process.on('uncaughtException', (error) => {
+    // in case the user exits the program with Ctrl+C, then don't show the inquirer.js error to the user
+    if (error instanceof Error && error.name === 'ExitPromptError') {
+        process.exit(0);
+    } else {
+      // Rethrow unknown errors
+      throw error;
+    }
+  });

@@ -71,7 +71,7 @@ Just run it where you want the file(s) to be output to.
 
 ## Possible Environment Variables
 
-MRO tries to read from either a `.env` file if it exists where it is run or the environment.
+MRO tries to read from either the environment or a `.env` file if the file exists where it is run from.
 
 If it finds any of the following key variations it skips the prompt for that value.
 
@@ -95,6 +95,14 @@ MRO will **never** make changes to your database. Credentials are safe with MRO.
 
 ---
 
+## Tests
+
+Extensive tests are run on every push to the repository.
+
+This is done by using sample databases Chinook (SQLite), Sakila (MySQL) and Pagila (PostgreSQL). After the schema is read, all types of outputs are generated and compared to the expected output.
+
+---
+
 ## Create an issue
 
 - If you experience bugs
@@ -102,13 +110,6 @@ MRO will **never** make changes to your database. Credentials are safe with MRO.
 - If you have general comments/feedback 
 
 ---
-
-## Supported Databases
-
-- MySQL
-- PostgreSQL
-- SQLite
-
 
 [npm-version-image]: https://img.shields.io/npm/v/mro.svg
 [npm-url]: https://www.npmjs.com/package/mro
