@@ -1,8 +1,12 @@
-.PHONY: mysql access_mysql postgresql access_postgresql sqlite all
+.PHONY: mysql mysql_empty access_mysql postgresql postgresql_empty access_postgresql sqlite all
 
 mysql:
 	@echo "Starting Docker Compose in mysql folder..."
 	cd mysql && docker-compose up
+
+mysql_empty:
+	@echo "Starting Docker Compose in mysql_empty folder..."
+	cd mysql_empty && docker-compose up
 
 access_mysql:
 	@echo "Logging onto MySQL..."
@@ -11,6 +15,10 @@ access_mysql:
 postgresql:
 	@echo "Starting Docker Compose in postgresql folder..."
 	cd postgresql && docker-compose up
+
+postgresql_empty:
+	@echo "Starting Docker Compose in postgresql_empty folder..."
+	cd postgresql_empty && docker-compose up
 
 access_postgresql:
 	@echo "Logging onto PostgreSQL..."
@@ -21,5 +29,4 @@ sqlite:
 	cd sqlite && node ./database/createSQLiteDB.js
 
 
-all: mysql access_mysql postgresql access_postgresql sqlite
-	
+

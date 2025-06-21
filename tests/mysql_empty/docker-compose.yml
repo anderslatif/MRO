@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    ports:
+    # Note: 3307 is exposed because 3306 is already in use when testing locally
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./emptydb-schema.sql:/docker-entrypoint-initdb.d/emptydb-schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      
+volumes:
+  mysql_data:
+
