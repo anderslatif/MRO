@@ -52,8 +52,6 @@ export function getUser() {
 		'PG_USER',
 		'POSTGRES_USER',
 		'POSTGRESQL_USER',
-		'USER',
-		'USERNAME',
 	];
 	return variations
 		.map((variation) => process.env[variation])

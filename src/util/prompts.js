@@ -1,4 +1,4 @@
-import { select, confirm, input, checkbox} from '@inquirer/prompts';
+import { select, confirm, input, checkbox, password } from '@inquirer/prompts';
 import chalk from 'chalk';
 import fs from 'fs';
 import * as getEnvVariables from './getEnvironmentVariables.js';

@@ -31,10 +31,12 @@ const outputFormat = await prompt.outputFormat();
 
 if (outputFormat === 'json') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
-    convertToJSON(credentials, mysqlKeysToKeep);
+    credentials.mysqlKeysToKeep = mysqlKeysToKeep;
+    convertToJSON(credentials);
 } else if (outputFormat === 'html') {
     const mysqlKeysToKeep = await prompt.outputMysqlKeysToKeep();
-    convertToHTML(credentials, mysqlKeysToKeep);
+    credentials.mysqlKeysToKeep = mysqlKeysToKeep;
+    convertToHTML(credentials);
 } else if (outputFormat === 'knex') {
     const moduleSyntax = await prompt.chooseModuleSyntax();
     credentials.moduleSyntax = moduleSyntax;
@@ -53,4 +55,4 @@ process.on('uncaughtException', (error) => {
       // Rethrow unknown errors
       throw error;
     }
-  });
+});

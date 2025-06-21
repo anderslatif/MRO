@@ -1,4 +1,5 @@
 import getSchema from '../util/getSchema.js';
+import { printDotEnvGuide } from '../util/printUtil.js';
 import { prettyPrintSchema, convertSchemaToNeatJson } from '../mysql/mysqlUtil.js';
 import { getHTMLDocument } from '../html/htmlDocsUtil.js';
 import { createMigrationFileString, createEmptyMigrationFileString } from '../knex/knexUtil.js';
@@ -11,30 +12,32 @@ import path from 'path';
 import { createDependencyGraph, topologicalSort, sortSchema } from '../knex/dependencyGraph.js';
 import pluralize from 'pluralize';
 
-export async function convertToJSON(credentials, mysqlKeysToKeep) {
-  const showKeyTo = mysqlKeysToKeep.includes('keyTo');
+export async function convertToJSON(credentials) {
+  const showKeyTo = credentials.mysqlKeysToKeep.includes('keyTo');
   const schema = await getSchema(credentials, showKeyTo);
 
-  const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
+  const tables = convertSchemaToNeatJson(schema, credentials.mysqlKeysToKeep, showKeyTo);
   const stringifiedSchema = JSON.stringify({ schema: tables }, null, 4);
 
+  printDotEnvGuide(credentials);
   prettyPrintSchema(tables);
   fs.writeFileSync(credentials.database + '.json', stringifiedSchema);
 
   process.exit(0);
 }
 
-export async function convertToHTML(credentials, mysqlKeysToKeep) {
-  const showKeyTo = mysqlKeysToKeep.includes('keyTo');
+export async function convertToHTML(credentials) {
+  const showKeyTo = credentials.mysqlKeysToKeep.includes('keyTo');
   const schema = await getSchema(credentials, showKeyTo);
 
-  const tables = convertSchemaToNeatJson(schema, mysqlKeysToKeep, showKeyTo);
+  const tables = convertSchemaToNeatJson(schema, credentials.mysqlKeysToKeep, showKeyTo);
   const selectedTables = await prompts.selectTables(tables);
 
   const filteredTables = tables.filter(table => selectedTables.includes(table.table));
 
   const htmlDocument = getHTMLDocument(filteredTables, credentials.database);
 
+  printDotEnvGuide(credentials);
   prettyPrintSchema(filteredTables);
 
   fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);  
@@ -65,6 +68,7 @@ export async function convertToKnexMigration(credentials) {
     fileString = createEmptyMigrationFileString();
   }
 
+  printDotEnvGuide(credentials);
   fs.writeFileSync(getKnexTimestampString() + '_mro_migration.js', fileString);
 
   process.exit(0);
@@ -85,6 +89,8 @@ export async function convertToObjection(credentials) {
     }
     fs.writeFileSync(filePath, fileString);
   });
+
+  printDotEnvGuide(credentials);
 
   process.exit(0);
 }
