@@ -5,10 +5,23 @@ export function getHTMLDocument(tables, database) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <style>
+            html, body {
+                height: 100%;
+            }
+
             body {
-                margin: 5vw;
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+
                 background: #fafafa;
                 font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            }
+
+            main {
+                margin: 5vw;
+                flex: 1;
             }
             
             h1, h2 {
@@ -46,7 +59,7 @@ export function getHTMLDocument(tables, database) {
             
             th {
                 font-weight: 700;
-                background: hsla(0, 0%, 100%, .8);
+                background-color: darkgrey;
             }
             
             tr:nth-child(even) {
@@ -55,6 +68,12 @@ export function getHTMLDocument(tables, database) {
             
             tbody tr:hover {
                 background: rgba(0, 0, 0, .02);
+            }
+            
+            footer {
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+                margin-left: 1rem;
             }
         </style>
         <title>%%DATABASE_NAME%% - Docs</title>
@@ -68,8 +87,9 @@ export function getHTMLDocument(tables, database) {
 
   const htmlBottom = `</div>
             </main> 
-            <br><br>
-            <footer>Powered by MRO</footer>
+            <footer>
+                <a href="https://www.npmjs.com/package/mro">Powered by MRO</a>
+            </footer>
         </body>
         </html>`;
 
@@ -84,14 +104,12 @@ function createHTMLTableForDatabaseTable(table) {
         <h2 class="database-table-name">${table.table}</h2>`;
   const htmlTableHeaders = `
         <table class="database-table-body">
-            <tr>
-                ${databaseFields.map(columnKey => `<th>${columnKey}</th>`).join('')}                 
-            </tr>
-    `;
-  const htmlTableHeadersEnd = `
-        </tr>
-        </thead>
-        <tbody>
+            <thead>
+                <tr>
+                    ${databaseFields.map(columnKey => `<th>${columnKey}</th>`).join('')}                 
+                </tr>
+            </thead>
+            <tbody>
     `;
   const htmlTableRows = `
             ${table.columns.map(column => {
@@ -108,5 +126,5 @@ function createHTMLTableForDatabaseTable(table) {
         </table>
     `;
 
-  return htmlTableTitle + htmlTableHeaders + htmlTableHeadersEnd + htmlTableRows + htmlTableBodyEnd;
+  return htmlTableTitle + htmlTableHeaders + htmlTableRows + htmlTableBodyEnd;
 }
