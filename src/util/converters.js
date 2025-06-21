@@ -19,7 +19,7 @@ export async function convertToJSON(credentials) {
   const tables = convertSchemaToNeatJson(schema, credentials.mysqlKeysToKeep, showKeyTo);
   const stringifiedSchema = JSON.stringify({ schema: tables }, null, 4);
 
-  printDotEnvGuide(credentials);
+  // printDotEnvGuide(credentials);
   prettyPrintSchema(tables);
   fs.writeFileSync(credentials.database + '.json', stringifiedSchema);
 
@@ -37,7 +37,7 @@ export async function convertToHTML(credentials) {
 
   const htmlDocument = getHTMLDocument(filteredTables, credentials.database);
 
-  printDotEnvGuide(credentials);
+  // printDotEnvGuide(credentials);
   prettyPrintSchema(filteredTables);
 
   fs.writeFileSync(`${credentials.database}_mro_docs.html`, htmlDocument);  
@@ -90,7 +90,7 @@ export async function convertToObjection(credentials) {
     fs.writeFileSync(filePath, fileString);
   });
 
-  printDotEnvGuide(credentials);
+  // printDotEnvGuide(credentials);
 
   process.exit(0);
 }

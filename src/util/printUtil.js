@@ -9,10 +9,12 @@ export function printDotEnvGuide(credentials) {
 		['DATABASE_NAME', credentials.database, getEnvVariables.getDatabaseName],
 		['DATABASE_USER', credentials.user, getEnvVariables.getUser],
 		['DATABASE_PASSWORD', credentials.password ? '*********' : undefined, getEnvVariables.getPassword],
-		['dbPath', credentials.dbPath, getEnvVariables.getDbPath],
+		['DATABASE_PATH', credentials.dbPath, getEnvVariables.getDatabasePath],
 		['MODULE_SYNTAX', credentials.moduleSyntax, getEnvVariables.getKnexModuleSyntax],
-		['MYSQL_KEYS_TO_KEEP', credentials.mysqlKeysToKeep, getEnvVariables.getMysqlKeysToKeep],
+		['MRO_ALL_KEYS', credentials.mysqlKeysToKeep, getEnvVariables.getAllMySQLKeys],
+		['MRO_ALL_TABLES', credentials.mysqlKeysToKeep, getEnvVariables.getAllTables],
 	];
+
 
 	const lines = entries
 		.filter(([_, value, getter]) => value !== undefined && !getter())

@@ -25,7 +25,7 @@ describe('Test Knex migration creation for SQLite', () => {
 	it('should create the migration file', () => {
         const migrationFile = findMatchingFile();
 
-        expect(migrationFile).to.not.be.null
+        expect(migrationFile).to.not.be.null;
 	});
 
     it('should contain logic for creating all tables', () => {
