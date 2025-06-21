@@ -91,7 +91,7 @@ If it finds any of the following key variations it skips the prompt for that val
 | **All Selected Tables**    | `ALL_TABLES`, `MRO_ALL_TABLES`                                                                      | Used by the test suite. All tables will be included.                                       |
 
 
-MRO will **never** make changes to your database. Credentials are safe with MRO. 
+MRO will **never** make changes to your database. Credentials are safe and kept locally with MRO. 
 
 ---
 
